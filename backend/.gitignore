@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+wheels/
+pip-wheel-metadata/
+.installed.cfg
+lib/
+lib64/
+.eggs/
+
+# Virtual environment
+venv/
+env/
+.env
+.venv
+
+# Environment files (never commit real secrets)
+.env
+.env.local
+.env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Alembic (keep example ini)
+# alembic.ini  <- keep this, it's an example

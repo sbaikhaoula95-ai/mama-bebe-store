@@ -1,0 +1,2 @@
+orderId,createdAt,status,customerName,phone,city,address,subtotal,deliveryFee,total,currency,upsellShown,upsellAccepted,upsellProductId,sourcePage,utmSource,utmMedium,utmCampaign,eventId,userAgent,callStatus,confirmedAt,deliveryStatus,carrierTracking,notes
+HN-20260605-EXAMPLE,2026-06-05T00:00:00Z,received,سلمى مثال,0612345678,الدار البيضاء,شارع محمد الخامس حي المعاريف,299,0,299,MAD,نعم,لا,,https://hnina.shop/products/hnina-mama,facebook,paid,launch_mama,order_event_example,Mozilla/5.0,,,,,"صف مثال - احذفيه"
