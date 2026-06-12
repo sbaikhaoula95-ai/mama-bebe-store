@@ -45,8 +45,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
     openCheckout();
   }
 
+  const headingText = product.shortHeading.replace(/\n/g, " ");
+
   return (
-    <div className={cn("product-card flex flex-col", className)}>
+    <div className={cn("product-card flex flex-col min-w-0", className)}>
       <Link href={`/products/${product.slug}`} className="block">
         <PlaceholderImage
           imageKey={product.heroImageKey}
@@ -56,16 +58,16 @@ export function ProductCard({ product, className }: ProductCardProps) {
         />
       </Link>
 
-      <div className="flex flex-col gap-3 p-5 flex-1">
+      <div className="flex flex-col gap-3 p-4 sm:p-5 flex-1 min-w-0">
         {/* Rating */}
         <StarRating rating={4.9} />
 
         {/* Name */}
-        <Link href={`/products/${product.slug}`} className="block">
-          <h3 className="font-bold text-ink text-lg leading-snug whitespace-pre-line hover:text-forest transition-colors">
-            {product.shortHeading}
+        <Link href={`/products/${product.slug}`} className="block min-w-0">
+          <h3 className="font-bold text-ink text-base sm:text-lg leading-snug break-words hover:text-forest transition-colors">
+            {headingText}
           </h3>
-          <p className="text-ink/60 text-sm mt-1 leading-relaxed">
+          <p className="text-ink/60 text-xs sm:text-sm mt-1 leading-relaxed break-words">
             {product.subheading}
           </p>
         </Link>
@@ -78,7 +80,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
         {/* Price + scarcity */}
         <div className="flex flex-col gap-1">
-          <p className="text-forest font-bold text-xl">
+          <p className="text-forest font-bold text-lg sm:text-xl">
             ابتداء من <span>199 درهم</span>
           </p>
           <p className="text-danger text-xs font-medium">

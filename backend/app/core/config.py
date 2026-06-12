@@ -24,7 +24,6 @@ class Settings(BaseSettings):
     order_lookup_secret: str = "CHANGE_ME"
 
     sheet_webhook_url: str = ""
-    sheet_webhook_secret: str = ""
 
     meta_pixel_id: str = ""
     meta_access_token: str = ""
@@ -50,9 +49,8 @@ class Settings(BaseSettings):
     @property
     def cors_origins(self) -> List[str]:
         origins = [o.strip() for o in self.allowed_origins.split(",") if o.strip()]
-        if self.app_env != "production":
-            origins.append("http://localhost:3000")
-            origins.append("http://127.0.0.1:3000")
+        origins.append("http://localhost:3000")
+        origins.append("http://127.0.0.1:3000")
         return origins
 
     @property

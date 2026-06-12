@@ -6,8 +6,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
 import { CartDrawer } from "@/components/cart/CartDrawer";
-import { CheckoutPopup } from "@/components/cart/CheckoutPopup";
 import { PixelLoader } from "@/components/tracking/PixelLoader";
+import { HomeJsonLd } from "@/components/seo/JsonLd";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -70,6 +70,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} font-arabic`}>
+      <head>
+        <HomeJsonLd />
+      </head>
       <body className="font-arabic">
         <PixelLoader />
         <AnnouncementBar />
@@ -78,7 +81,6 @@ export default function RootLayout({
         <Footer />
         <FloatingWhatsApp />
         <CartDrawer />
-        <CheckoutPopup />
       </body>
     </html>
   );

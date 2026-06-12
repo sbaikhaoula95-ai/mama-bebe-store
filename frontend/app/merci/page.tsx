@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { PRODUCTS_LIST, getProductBySlug } from "@/config/products";
 import { PlaceholderImage } from "@/components/brand/PlaceholderImage";
+import { useCartStore } from "@/store/cart-store";
 
 type OrderSummary = {
   orderId: string;
@@ -33,9 +34,14 @@ function ThankYouContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
   const [order, setOrder] = useState<OrderSummary | null>(null);
+  const closeCart = useCartStore((s) => s.closeCart);
+  const clearCart = useCartStore((s) => s.clearCart);
 
   useEffect(() => {
-    // Try to get order summary from sessionStorage first
+    // Guarantee a clean UI on the thank-you page: no leftover drawer / cart items
+    closeCart();
+    clearCart();
+
     const stored = sessionStorage.getItem("hnina_order");
     if (stored) {
       try {
@@ -44,7 +50,7 @@ function ThankYouContent() {
         // ignore
       }
     }
-  }, []);
+  }, [closeCart, clearCart]);
 
   // Products not in order for cross-sells
   const orderProductIds = new Set(order?.items.map((i) => i.productId) || []);
@@ -166,7 +172,7 @@ function ThankYouContent() {
               {crossSellProducts.map((product) => (
                 <div
                   key={product.slug}
-                  className="product-card flex flex-col"
+                  className="product-card flex flex-col min-w-0"
                 >
                   <Link href={`/products/${product.slug}`}>
                     <PlaceholderImage
@@ -176,10 +182,10 @@ function ThankYouContent() {
                       className="rounded-none rounded-t-3xl"
                     />
                   </Link>
-                  <div className="p-5 flex flex-col gap-3 flex-1">
-                    <Link href={`/products/${product.slug}`}>
-                      <h3 className="font-bold text-ink text-base leading-snug whitespace-pre-line hover:text-forest transition-colors">
-                        {product.shortHeading}
+                  <div className="p-4 sm:p-5 flex flex-col gap-3 flex-1 min-w-0">
+                    <Link href={`/products/${product.slug}`} className="min-w-0">
+                      <h3 className="font-bold text-ink text-sm sm:text-base leading-snug break-words hover:text-forest transition-colors">
+                        {product.shortHeading.replace(/\n/g, " ")}
                       </h3>
                     </Link>
                     <div className="flex items-center justify-between mt-auto">

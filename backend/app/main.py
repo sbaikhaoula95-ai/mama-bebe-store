@@ -14,6 +14,14 @@ import app.models.contact_message  # noqa: F401
 
 def create_app() -> FastAPI:
     setup_logging()
+    sheet_webhook_url = settings.sheet_webhook_url.strip()
+    if not sheet_webhook_url:
+        logger.warning("SHEET_WEBHOOK_URL is not configured; orders will not reach Google Sheets.")
+    elif not (
+        sheet_webhook_url.startswith("https://script.google.com/macros/s/")
+        and sheet_webhook_url.endswith("/exec")
+    ):
+        logger.warning("SHEET_WEBHOOK_URL does not look like a Google Apps Script /exec URL.")
 
     app = FastAPI(
         title="Hnina API",

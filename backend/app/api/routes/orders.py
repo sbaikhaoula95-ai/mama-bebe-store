@@ -2,9 +2,12 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 from decimal import Decimal
-from fastapi import APIRouter, Depends, Request, HTTPException
+from hmac import compare_digest
+
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import func, or_, select
+from sqlalchemy.orm import selectinload
 
 from app.db.session import get_db
 from app.schemas.order import CreateOrderIn, CreateOrderOut
@@ -22,12 +25,46 @@ from app.services.tracking.meta import send_meta_capi
 from app.services.tracking.tiktok import send_tiktok_capi
 from app.services.tracking.snapchat import send_snap_capi
 from app.services.fraud.maxmind import evaluate_order_ip, extract_client_ip
+from app.core.config import settings
 from app.core.logging import logger
 
 router = APIRouter()
 
 
-@router.post("/orders", response_model=CreateOrderOut, status_code=201)
+def _record_sheet_result(
+    order: Order,
+    sheet_success: bool,
+    sheet_error: str | None,
+) -> None:
+    order.sheet_status = "sent" if sheet_success else "failed"
+    order.sheet_sent_at = datetime.utcnow() if sheet_success else None
+    order.sheet_last_error = None if sheet_success else (sheet_error or "unknown_error")[:2000]
+
+
+async def _require_webhook_secret(
+    x_webhook_secret: str | None = Header(default=None, alias="X-Webhook-Secret"),
+) -> None:
+    configured_secret = settings.webhook_shared_secret
+    if not configured_secret or configured_secret == "CHANGE_ME":
+        logger.error("WEBHOOK_SHARED_SECRET is not configured for protected order tools.")
+        raise HTTPException(status_code=503, detail="Webhook shared secret is not configured.")
+
+    if not x_webhook_secret or not compare_digest(x_webhook_secret, configured_secret):
+        raise HTTPException(status_code=401, detail="Invalid webhook secret.")
+
+
+def _sheet_config_status() -> dict[str, bool]:
+    webhook_url = settings.sheet_webhook_url.strip()
+    return {
+        "configured": bool(webhook_url),
+        "looksLikeAppsScriptExecUrl": webhook_url.startswith(
+            "https://script.google.com/macros/s/"
+        )
+        and webhook_url.endswith("/exec"),
+    }
+
+
+@router.post("/orders", status_code=201)
 async def create_order(
     payload: CreateOrderIn,
     request: Request,
@@ -147,8 +184,7 @@ async def create_order(
     # Fire integrations after DB commit — failures must not break order
     # Google Sheets
     sheet_success, sheet_error = await send_to_google_sheets(order, order_items)
-    order.sheet_status = "sent" if sheet_success else "failed"
-    order.sheet_sent_at = datetime.utcnow() if sheet_success else None
+    _record_sheet_result(order, sheet_success, sheet_error)
     await db.commit()
 
     # CAPI — fire all, store results
@@ -179,7 +215,7 @@ async def create_order(
 
     first_name = order.customer_name.split()[0] if order.customer_name else order.customer_name
 
-    return CreateOrderOut(
+    out = CreateOrderOut(
         order_id=str(order.id),
         order_number=order.order_number,
         status=order.status,
@@ -188,9 +224,116 @@ async def create_order(
         total=order.total,
         currency=order.currency,
     )
+    return out.model_dump(by_alias=True, mode="json")
 
 
-@router.get("/orders/{order_id}", response_model=CreateOrderOut)
+@router.get("/orders/sheets/status")
+async def get_google_sheets_status(
+    _: None = Depends(_require_webhook_secret),
+    db: AsyncSession = Depends(get_db),
+):
+    """Report whether Google Sheets is configured and how many orders need retry."""
+    result = await db.execute(
+        select(Order.sheet_status, func.count(Order.id)).group_by(Order.sheet_status)
+    )
+    counts = {status or "unknown": count for status, count in result.all()}
+
+    return {
+        "googleSheets": _sheet_config_status(),
+        "counts": counts,
+    }
+
+
+@router.post("/orders/sheets/retry-failed")
+async def retry_failed_google_sheets_orders(
+    limit: int = Query(default=25, ge=1, le=200),
+    _: None = Depends(_require_webhook_secret),
+    db: AsyncSession = Depends(get_db),
+):
+    """Retry pending/failed Google Sheets sends after fixing the webhook config."""
+    if not settings.sheet_webhook_url.strip():
+        raise HTTPException(status_code=503, detail="SHEET_WEBHOOK_URL is not configured.")
+
+    result = await db.execute(
+        select(Order)
+        .where(
+            or_(
+                Order.sheet_status.in_(("pending", "failed")),
+                Order.sheet_status.is_(None),
+            )
+        )
+        .options(selectinload(Order.items))
+        .order_by(Order.created_at.asc())
+        .limit(limit)
+    )
+    orders = result.scalars().all()
+
+    retries = []
+    sent_count = 0
+    failed_count = 0
+    for order in orders:
+        sheet_success, sheet_error = await send_to_google_sheets(order, list(order.items))
+        _record_sheet_result(order, sheet_success, sheet_error)
+        if sheet_success:
+            sent_count += 1
+        else:
+            failed_count += 1
+        retries.append(
+            {
+                "orderId": str(order.id),
+                "orderNumber": order.order_number,
+                "sheetStatus": order.sheet_status,
+                "sheetLastError": order.sheet_last_error,
+            }
+        )
+
+    await db.commit()
+
+    return {
+        "googleSheets": _sheet_config_status(),
+        "processed": len(retries),
+        "sent": sent_count,
+        "failed": failed_count,
+        "results": retries,
+    }
+
+
+@router.post("/orders/{order_id}/sheet/resend")
+async def resend_order_to_google_sheets(
+    order_id: str,
+    _: None = Depends(_require_webhook_secret),
+    db: AsyncSession = Depends(get_db),
+):
+    """Resend one order to Google Sheets."""
+    if not settings.sheet_webhook_url.strip():
+        raise HTTPException(status_code=503, detail="SHEET_WEBHOOK_URL is not configured.")
+
+    try:
+        uid = uuid.UUID(order_id)
+    except ValueError:
+        raise HTTPException(status_code=404, detail="طلب غير موجود")
+
+    result = await db.execute(
+        select(Order).where(Order.id == uid).options(selectinload(Order.items))
+    )
+    order = result.scalar_one_or_none()
+
+    if not order:
+        raise HTTPException(status_code=404, detail="طلب غير موجود")
+
+    sheet_success, sheet_error = await send_to_google_sheets(order, list(order.items))
+    _record_sheet_result(order, sheet_success, sheet_error)
+    await db.commit()
+
+    return {
+        "orderId": str(order.id),
+        "orderNumber": order.order_number,
+        "sheetStatus": order.sheet_status,
+        "sheetLastError": order.sheet_last_error,
+    }
+
+
+@router.get("/orders/{order_id}")
 async def get_order(
     order_id: str,
     db: AsyncSession = Depends(get_db),
@@ -209,7 +352,7 @@ async def get_order(
 
     first_name = order.customer_name.split()[0] if order.customer_name else order.customer_name
 
-    return CreateOrderOut(
+    out = CreateOrderOut(
         order_id=str(order.id),
         order_number=order.order_number,
         status=order.status,
@@ -218,3 +361,4 @@ async def get_order(
         total=order.total,
         currency=order.currency,
     )
+    return out.model_dump(by_alias=True, mode="json")

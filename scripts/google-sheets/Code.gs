@@ -11,10 +11,9 @@
  *      Copy the resulting /exec URL and put it in the backend env var:
  *        SHEET_WEBHOOK_URL=https://script.google.com/macros/s/.../exec
  *
- *   IMPORTANT: this script MUST be created from inside the spreadsheet
- *   (Extensions > Apps Script) so it is container-bound. A standalone Apps
- *   Script project has no active spreadsheet and every request will fail with
- *   "no_active_spreadsheet".
+ *   If you create the script from inside the spreadsheet, SPREADSHEET_ID can
+ *   stay empty. If you deploy a standalone Apps Script project, paste the
+ *   spreadsheet ID below so the webhook knows where to append orders.
  *
  *   No secret required. Anyone who knows the URL can append a row, which is
  *   acceptable here because only the backend ever calls it.
@@ -32,6 +31,7 @@
  */
 
 const SHEET_NAME = 'orders';
+const SPREADSHEET_ID = '';
 
 const HEADERS = [
   'date',
@@ -60,12 +60,12 @@ function doPost(e) {
       return jsonResponse({ success: false, error: 'invalid_json' });
     }
 
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = getSpreadsheet();
     if (!ss) {
       return jsonResponse({
         success: false,
         error: 'no_active_spreadsheet',
-        hint: 'Open the target spreadsheet, then Extensions > Apps Script. Standalone scripts cannot reach a spreadsheet.',
+        hint: 'Create the script from inside the spreadsheet or set SPREADSHEET_ID in Code.gs.',
       });
     }
 
@@ -103,6 +103,16 @@ function jsonResponse(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Supports both container-bound scripts and standalone Apps Script projects.
+ */
+function getSpreadsheet() {
+  if (SPREADSHEET_ID) {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  }
+  return SpreadsheetApp.getActiveSpreadsheet();
 }
 
 /**

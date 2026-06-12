@@ -42,7 +42,7 @@ export function CrossSellGrid({
           {products.map((product) => (
             <div
               key={product.slug}
-              className="product-card flex flex-col"
+              className="product-card flex flex-col min-w-0"
             >
               <Link href={`/products/${product.slug}`}>
                 <PlaceholderImage
@@ -52,12 +52,12 @@ export function CrossSellGrid({
                   className="rounded-none rounded-t-3xl"
                 />
               </Link>
-              <div className="p-5 flex flex-col gap-3 flex-1">
-                <Link href={`/products/${product.slug}`}>
-                  <h3 className="font-bold text-ink text-lg whitespace-pre-line hover:text-forest transition-colors">
-                    {product.shortHeading}
+              <div className="p-4 sm:p-5 flex flex-col gap-3 flex-1 min-w-0">
+                <Link href={`/products/${product.slug}`} className="min-w-0">
+                  <h3 className="font-bold text-ink text-base sm:text-lg leading-snug break-words hover:text-forest transition-colors">
+                    {product.shortHeading.replace(/\n/g, " ")}
                   </h3>
-                  <p className="text-ink/60 text-sm mt-1">{product.subheading}</p>
+                  <p className="text-ink/60 text-xs sm:text-sm mt-1 break-words">{product.subheading}</p>
                 </Link>
                 <div className="flex items-center justify-between mt-auto">
                   <span className="font-bold text-forest text-xl">199 درهم</span>

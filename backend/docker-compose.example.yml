@@ -12,7 +12,6 @@ services:
       DATABASE_URL: postgresql+asyncpg://hnina:CHANGE_ME@db:5432/hnina
       ALLOWED_ORIGINS: https://hnina.shop,https://www.hnina.shop
       SHEET_WEBHOOK_URL: ""
-      SHEET_WEBHOOK_SECRET: ""
       META_PIXEL_ID: ""
       META_ACCESS_TOKEN: ""
       TIKTOK_PIXEL_CODE: ""

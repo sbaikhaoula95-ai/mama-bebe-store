@@ -243,10 +243,10 @@ export default async function ProductPage({
             <div className="order-1 lg:order-2 relative">
               <div className="absolute -inset-4 bg-sage/10 rounded-full blur-2xl -z-10"></div>
               <PlaceholderImage
-                imageKey={product.secondaryImageKey}
-                alt={`آلية عمل ${product.arabicName}`}
-                aspectRatio="portrait"
-                className="rounded-3xl"
+                imageKey={`lab-${product.slug}`}
+                alt={`المكونات الطبيعية المختبرة في ${product.arabicName}`}
+                aspectRatio="square"
+                className="rounded-3xl shadow-md"
               />
             </div>
           </div>

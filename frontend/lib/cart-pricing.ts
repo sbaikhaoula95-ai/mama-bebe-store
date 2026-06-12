@@ -94,17 +94,17 @@ export function getRecommendedUpsell(
   const cartSlugs = new Set(nonUpsellItems.map((i) => i.productId));
 
   const hasMama = cartSlugs.has("hnina-mama");
-  const hasLila = cartSlugs.has("hnina-lila");
+  const hasJodour = cartSlugs.has("hnina-jodour");
   const hasCalm = cartSlugs.has("hnina-calm");
 
-  if (hasMama && hasLila && hasCalm) {
+  if (hasMama && hasJodour && hasCalm) {
     return "hnina-mama";
   }
-  if (hasMama && hasLila) return "hnina-calm";
-  if (hasMama && hasCalm) return "hnina-lila";
-  if (hasLila && hasCalm) return "hnina-mama";
-  if (hasMama) return "hnina-lila";
-  if (hasLila) return "hnina-mama";
-  if (hasCalm) return "hnina-lila";
-  return "hnina-mama";
+  if (hasMama && hasJodour) return "hnina-calm";
+  if (hasMama && hasCalm) return "hnina-jodour";
+  if (hasJodour && hasCalm) return "hnina-mama";
+  if (hasMama) return "hnina-jodour";
+  if (hasJodour) return "hnina-mama";
+  if (hasCalm) return "hnina-jodour";
+  return "hnina-jodour";
 }

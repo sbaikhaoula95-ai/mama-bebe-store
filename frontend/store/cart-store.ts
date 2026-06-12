@@ -15,14 +15,17 @@ export type CartItem = {
   upsellUnitPrice?: number;
 };
 
+export type CartStep = "cart" | "checkout";
+
 type CartStore = {
   items: CartItem[];
-  isDrawerOpen: boolean;
-  isCheckoutOpen: boolean;
-  openDrawer: () => void;
-  closeDrawer: () => void;
+  isOpen: boolean;
+  step: CartStep;
+  openCart: () => void;
   openCheckout: () => void;
-  closeCheckout: () => void;
+  goToCheckout: () => void;
+  backToCart: () => void;
+  closeCart: () => void;
   addItem: (item: Omit<CartItem, "lineId">) => void;
   removeItem: (lineId: string) => void;
   updateQuantity: (lineId: string, quantity: number) => void;
@@ -38,18 +41,18 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
-      isDrawerOpen: false,
-      isCheckoutOpen: false,
+      isOpen: false,
+      step: "cart",
 
-      openDrawer: () => set({ isDrawerOpen: true }),
-      closeDrawer: () => set({ isDrawerOpen: false }),
-      openCheckout: () => set({ isCheckoutOpen: true, isDrawerOpen: false }),
-      closeCheckout: () => set({ isCheckoutOpen: false }),
+      openCart: () => set({ isOpen: true, step: "cart" }),
+      openCheckout: () => set({ isOpen: true, step: "checkout" }),
+      goToCheckout: () => set({ step: "checkout" }),
+      backToCart: () => set({ step: "cart" }),
+      closeCart: () => set({ isOpen: false }),
 
       addItem: (item) => {
         const { items } = get();
 
-        // For non-upsell items, merge with existing item of same product
         if (!item.isUpsell) {
           const existing = items.find(
             (i) => i.productId === item.productId && !i.isUpsell
@@ -87,7 +90,7 @@ export const useCartStore = create<CartStore>()(
         });
       },
 
-      clearCart: () => set({ items: [] }),
+      clearCart: () => set({ items: [], step: "cart" }),
 
       hasProduct: (productId) => {
         return get().items.some((i) => i.productId === productId && !i.isUpsell);

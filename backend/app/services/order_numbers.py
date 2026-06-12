@@ -4,11 +4,10 @@ from sqlalchemy import select, func, text
 
 
 async def generate_order_number(db: AsyncSession) -> str:
-    """Generate HN-YYYYMMDD-XXXX format order number."""
+    """Generate HNINA-YYYYMMDD-XXXX format order number."""
     today = datetime.utcnow().strftime("%Y%m%d")
-    prefix = f"HN-{today}-"
+    prefix = f"HNINA-{today}-"
 
-    # Count orders with today's prefix
     result = await db.execute(
         text(
             "SELECT COUNT(*) FROM orders WHERE order_number LIKE :prefix"

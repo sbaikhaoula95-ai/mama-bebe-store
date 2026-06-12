@@ -42,9 +42,8 @@ DATABASE_URL=postgresql+asyncpg://hnina:CHANGE_ME@hnina_database:5432/hnina
 WEBHOOK_SHARED_SECRET=CHANGE_ME
 ORDER_LOOKUP_SECRET=CHANGE_ME
 
-# Google Sheets Apps Script webhook
+# Google Sheets Apps Script webhook (must be the deployed /exec URL)
 SHEET_WEBHOOK_URL=
-SHEET_WEBHOOK_SECRET=
 
 # Meta CAPI
 META_PIXEL_ID=
@@ -90,5 +89,5 @@ MAXMIND_WHITELISTED_PHONES=0610000000
 - Convert `postgres://` to `postgresql+asyncpg://` for SQLAlchemy async.
 - Keep frontend env limited to public values.
 - All CAPI access tokens belong only in backend env.
-- Google Apps Script webhook secret should be a random string and validated by `Code.gs`.
+- Google Apps Script webhook uses URL-only auth (no shared secret). Only the backend knows the `/exec` URL.
 

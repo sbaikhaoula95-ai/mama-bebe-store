@@ -1,9 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/config/site";
 
 const productLinks = [
   { href: "/products/hnina-mama", label: "حنينة ماما", note: "للماما والحمل" },
-  { href: "/products/hnina-lila", label: "حنينة ليلى", note: "روتين نوم البيبي" },
+  { href: "/products/hnina-jodour", label: "حنينة جذور", note: "ضد تساقط الشعر" },
   { href: "/products/hnina-calm", label: "حنينة كالم", note: "للبشرة الحساسة" },
   { href: "/products", label: "كل المنتجات", note: "اختاري المناسب" },
 ];
@@ -42,9 +43,13 @@ export function Footer() {
           {/* Brand column */}
           <div className="rounded-[2rem] bg-cream/5 p-5 md:bg-transparent md:p-0">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-cream/20">
-                <span className="font-bold text-cream">H</span>
-              </div>
+              <Image
+                src="/images/brand/hnina-logo-icon.png"
+                alt="حنينة Hnina"
+                width={48}
+                height={48}
+                className="h-12 w-12 flex-shrink-0 object-contain"
+              />
               <div className="flex flex-col leading-tight">
                 <span className="text-2xl font-bold text-cream">حنينة</span>
                 <span className="text-sm font-medium uppercase tracking-widest text-cream/60">HNINA</span>

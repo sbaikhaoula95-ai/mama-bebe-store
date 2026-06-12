@@ -76,7 +76,7 @@ export function UpsellModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-ink/70 backdrop-blur-sm z-[60]"
+            className="fixed inset-0 bg-ink/95 backdrop-blur-md z-[60]"
             aria-hidden="true"
           />
           <motion.div
@@ -84,7 +84,7 @@ export function UpsellModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-0 z-[70] flex items-end md:items-center justify-center p-4"
+            className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-4 safe-bottom"
             role="dialog"
             aria-modal="true"
             aria-label="عرض خاص"

@@ -1,10 +1,21 @@
 import re
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator
+
 
 MOROCCO_PHONE_RE = re.compile(r"^0[67]\d{8}$")
 
 
+def _to_camel(s: str) -> str:
+    parts = s.split("_")
+    return parts[0] + "".join(p.title() for p in parts[1:])
+
+
 class ContactIn(BaseModel):
+    model_config = ConfigDict(
+        alias_generator=_to_camel,
+        populate_by_name=True,
+    )
+
     name: str
     phone: str
     message: str

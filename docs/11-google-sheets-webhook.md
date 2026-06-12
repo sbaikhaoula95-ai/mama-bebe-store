@@ -43,6 +43,8 @@ the backend ever knows the URL.
 
 1. Open the spreadsheet → Extensions → Apps Script.
 2. Paste the contents of `scripts/google-sheets/Code.gs`. Save.
+   - If the script is standalone instead of opened from the spreadsheet, paste
+     the spreadsheet ID into `SPREADSHEET_ID` in `Code.gs`.
 3. Deploy → New deployment → Web app.
    - Execute as: **Me**
    - Who has access: **Anyone**
@@ -96,10 +98,38 @@ on either side without updating both.
 If the Sheet webhook fails:
 
 - the customer still gets a successful order response,
-- the order row in Postgres is flagged `sheet_status=failed` with the error
-  body in the logs,
-- it can be re-sent manually by calling
-  `send_to_google_sheets(order, items)` from a one-off script.
+- the order row in Postgres is flagged `sheet_status=failed`,
+- `sheet_last_error` stores the exact failure reason,
+- failed/pending orders can be resent through the protected retry endpoint.
+
+### Backend diagnostics
+
+`GET /health` includes:
+
+```json
+{
+  "integrations": {
+    "googleSheets": {
+      "configured": true,
+      "looksLikeAppsScriptExecUrl": true
+    }
+  }
+}
+```
+
+Protected operations require the backend `WEBHOOK_SHARED_SECRET` value in the
+`X-Webhook-Secret` header:
+
+```sh
+curl -H "X-Webhook-Secret: $WEBHOOK_SHARED_SECRET" \
+  https://api.hnina.shop/api/orders/sheets/status
+
+curl -X POST -H "X-Webhook-Secret: $WEBHOOK_SHARED_SECRET" \
+  "https://api.hnina.shop/api/orders/sheets/retry-failed?limit=50"
+
+curl -X POST -H "X-Webhook-Secret: $WEBHOOK_SHARED_SECRET" \
+  https://api.hnina.shop/api/orders/ORDER_UUID/sheet/resend
+```
 
 Common `sheet_status=failed` errors and what they mean:
 

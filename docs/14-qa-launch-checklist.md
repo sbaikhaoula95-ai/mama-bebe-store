@@ -92,15 +92,16 @@
 
 ## Google Sheets QA
 
-- Sheets tabs exist:
-  - orders
-  - order_items
-  - events
-- Headers match templates.
-- Apps Script secret is configured.
-- Test order appears in orders tab.
-- Items appear in order_items tab.
-- Event appears in events tab.
+- Sheet tab named `orders` exists with correct headers:
+  `date | orderid | country | name | phone | product | sku | quantity | total price | currency | status`
+- Apps Script deployed as web app (Execute as: Me, Access: Anyone).
+- `SHEET_WEBHOOK_URL` set in backend env to the `/exec` URL.
+- `/health` shows `integrations.googleSheets.configured=true`.
+- Test order row appears in the `orders` tab after placing an order.
+- Multi-product orders show slash-separated values in product/sku/quantity columns.
+- Phone stored as text with leading zero preserved.
+- Order creation still succeeds if Sheet webhook fails (graceful degradation).
+- Failed/pending orders can be resent with `/api/orders/sheets/retry-failed`.
 
 ## Tracking QA
 

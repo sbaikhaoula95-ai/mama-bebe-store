@@ -53,6 +53,7 @@ class Order(Base):
 
     sheet_sent_at = Column(DateTime(timezone=True), nullable=True)
     sheet_status = Column(String, nullable=True)
+    sheet_last_error = Column(Text, nullable=True)
 
     created_at = Column(
         DateTime(timezone=True), nullable=False, default=func.now(), index=True

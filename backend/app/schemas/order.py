@@ -1,15 +1,27 @@
 from __future__ import annotations
 from decimal import Decimal
 from typing import Literal, Optional
-from pydantic import BaseModel, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 import re
 
 MOROCCO_PHONE_RE = re.compile(r"^0[67]\d{8}$")
 
-VALID_PRODUCT_IDS = {"hnina-mama", "hnina-lila", "hnina-calm"}
+VALID_PRODUCT_IDS = {"hnina-mama", "hnina-jodour", "hnina-calm"}
 
 
-class CustomerIn(BaseModel):
+def _to_camel(s: str) -> str:
+    parts = s.split("_")
+    return parts[0] + "".join(p.title() for p in parts[1:])
+
+
+class CamelModel(BaseModel):
+    model_config = ConfigDict(
+        alias_generator=_to_camel,
+        populate_by_name=True,
+    )
+
+
+class CustomerIn(CamelModel):
     full_name: str
     phone: str
     phone_confirm: str
@@ -52,7 +64,7 @@ class CustomerIn(BaseModel):
         return v.strip()
 
 
-class OrderItemIn(BaseModel):
+class OrderItemIn(CamelModel):
     product_id: str
     quantity: int
     is_upsell: bool = False
@@ -73,14 +85,14 @@ class OrderItemIn(BaseModel):
         return v
 
 
-class UpsellIn(BaseModel):
+class UpsellIn(CamelModel):
     shown: bool
     accepted: bool
     product_id: Optional[str] = None
     price: Optional[Decimal] = None
 
 
-class AttributionIn(BaseModel):
+class AttributionIn(CamelModel):
     source_page: Optional[str] = None
     landing_page: Optional[str] = None
     referrer: Optional[str] = None
@@ -91,7 +103,7 @@ class AttributionIn(BaseModel):
     utm_term: Optional[str] = None
 
 
-class TrackingIn(BaseModel):
+class TrackingIn(CamelModel):
     event_id: str
     fbp: Optional[str] = None
     fbc: Optional[str] = None
@@ -102,7 +114,7 @@ class TrackingIn(BaseModel):
     sc_click_id: Optional[str] = None
 
 
-class CreateOrderIn(BaseModel):
+class CreateOrderIn(CamelModel):
     customer: CustomerIn
     items: list[OrderItemIn]
     upsell: UpsellIn
@@ -117,7 +129,7 @@ class CreateOrderIn(BaseModel):
         return v
 
 
-class OrderItemOut(BaseModel):
+class OrderItemOut(CamelModel):
     product_id: str
     sku: str
     name_ar: str
@@ -126,10 +138,14 @@ class OrderItemOut(BaseModel):
     line_total: Decimal
     is_upsell: bool
 
-    model_config = {"from_attributes": True}
+    model_config = ConfigDict(
+        alias_generator=_to_camel,
+        populate_by_name=True,
+        from_attributes=True,
+    )
 
 
-class CreateOrderOut(BaseModel):
+class CreateOrderOut(CamelModel):
     order_id: str
     order_number: str
     status: str
