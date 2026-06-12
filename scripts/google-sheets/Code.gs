@@ -1,149 +1,128 @@
 /**
  * Hnina Google Sheets Apps Script Webhook
- * 
- * Deploy as a Web App:
- * - Execute as: Me
- * - Who has access: Anyone with the link
- * 
- * Set Script Properties:
- * - SCRIPT_SECRET: same value as backend SHEET_WEBHOOK_SECRET
+ *
+ * Setup:
+ *   1. Open the spreadsheet (e.g. "OrdersHNINAStore").
+ *   2. Extensions -> Apps Script -> paste this entire file as Code.gs.
+ *   3. Save, then "Deploy > New deployment > Web app":
+ *        - Description: hnina-orders-webhook
+ *        - Execute as:  Me
+ *        - Who has access: Anyone
+ *      Copy the resulting /exec URL and put it in the backend env var:
+ *        SHEET_WEBHOOK_URL=https://script.google.com/macros/s/.../exec
+ *
+ *   IMPORTANT: this script MUST be created from inside the spreadsheet
+ *   (Extensions > Apps Script) so it is container-bound. A standalone Apps
+ *   Script project has no active spreadsheet and every request will fail with
+ *   "no_active_spreadsheet".
+ *
+ *   No secret required. Anyone who knows the URL can append a row, which is
+ *   acceptable here because only the backend ever calls it.
+ *
+ * Sheet columns (left -> right, must match this order):
+ *   date | orderid | country | name | phone | product | sku | quantity | total price | currency | status
+ *
+ * Response contract (read by the backend):
+ *   On success: { "success": true,  "orderId": "..." }
+ *   On failure: { "success": false, "error": "..." }
+ *
+ * Apps Script web apps cannot return non-2xx HTTP codes, so the backend MUST
+ * check `success` in the JSON body. Do not change this contract without
+ * updating backend/app/services/sheet_webhook.py.
  */
 
-const SCRIPT_SECRET = PropertiesService.getScriptProperties().getProperty('SCRIPT_SECRET');
+const SHEET_NAME = 'orders';
 
-const SHEET_NAMES = {
-  ORDERS: 'orders',
-  ORDER_ITEMS: 'order_items',
-  EVENTS: 'events',
-};
-
-const ORDER_HEADERS = [
-  'orderId', 'createdAt', 'status', 'customerName', 'phone', 'city', 'address',
-  'subtotal', 'deliveryFee', 'total', 'currency',
-  'upsellShown', 'upsellAccepted', 'upsellProductId',
-  'sourcePage', 'utmSource', 'utmMedium', 'utmCampaign',
-  'eventId', 'userAgent',
-  'callStatus', 'confirmedAt', 'deliveryStatus', 'carrierTracking', 'notes',
-];
-
-const ORDER_ITEM_HEADERS = [
-  'orderId', 'productId', 'sku', 'nameAr', 'quantity', 'unitPrice', 'lineTotal', 'isUpsell',
-];
-
-const EVENT_HEADERS = [
-  'orderId', 'type', 'message', 'createdAt',
+const HEADERS = [
+  'date',
+  'orderid',
+  'country',
+  'name',
+  'phone',
+  'product',
+  'sku',
+  'quantity',
+  'total price',
+  'currency',
+  'status',
 ];
 
 function doPost(e) {
   try {
-    const body = JSON.parse(e.postData.contents);
+    if (!e || !e.postData || !e.postData.contents) {
+      return jsonResponse({ success: false, error: 'no_payload' });
+    }
 
-    // Security: validate secret
-    if (!SCRIPT_SECRET || body.secret !== SCRIPT_SECRET) {
-      return ContentService.createTextOutput(
-        JSON.stringify({ error: 'Unauthorized' })
-      ).setMimeType(ContentService.MimeType.JSON);
+    let body;
+    try {
+      body = JSON.parse(e.postData.contents);
+    } catch (parseErr) {
+      return jsonResponse({ success: false, error: 'invalid_json' });
     }
 
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const timestamp = new Date().toISOString();
-
-    // Write order row
-    if (body.order) {
-      const ordersSheet = getOrCreateSheet(ss, SHEET_NAMES.ORDERS, ORDER_HEADERS);
-      const o = body.order;
-      ordersSheet.appendRow([
-        o.orderId || '',
-        o.createdAt || timestamp,
-        o.status || 'received',
-        o.customerName || '',
-        o.phone || '',
-        o.city || '',
-        o.address || '',
-        o.subtotal || 0,
-        o.deliveryFee || 0,
-        o.total || 0,
-        o.currency || 'MAD',
-        o.upsellShown ? 'نعم' : 'لا',
-        o.upsellAccepted ? 'نعم' : 'لا',
-        o.upsellProductId || '',
-        o.sourcePage || '',
-        o.utmSource || '',
-        o.utmMedium || '',
-        o.utmCampaign || '',
-        o.eventId || '',
-        o.userAgent || '',
-        '', // callStatus
-        '', // confirmedAt
-        '', // deliveryStatus
-        '', // carrierTracking
-        '', // notes
-      ]);
+    if (!ss) {
+      return jsonResponse({
+        success: false,
+        error: 'no_active_spreadsheet',
+        hint: 'Open the target spreadsheet, then Extensions > Apps Script. Standalone scripts cannot reach a spreadsheet.',
+      });
     }
 
-    // Write order items
-    if (body.items && body.items.length > 0) {
-      const itemsSheet = getOrCreateSheet(ss, SHEET_NAMES.ORDER_ITEMS, ORDER_ITEM_HEADERS);
-      for (const item of body.items) {
-        itemsSheet.appendRow([
-          item.orderId || '',
-          item.productId || '',
-          item.sku || '',
-          item.nameAr || '',
-          item.quantity || 0,
-          item.unitPrice || 0,
-          item.lineTotal || 0,
-          item.isUpsell ? 'نعم' : 'لا',
-        ]);
-      }
-    }
+    const sheet = getOrCreateSheet(ss, SHEET_NAME, HEADERS);
 
-    // Write events
-    if (body.events && body.events.length > 0) {
-      const eventsSheet = getOrCreateSheet(ss, SHEET_NAMES.EVENTS, EVENT_HEADERS);
-      for (const event of body.events) {
-        eventsSheet.appendRow([
-          event.orderId || '',
-          event.type || '',
-          event.message || '',
-          timestamp,
-        ]);
-      }
-    }
+    const row = [
+      body.date || '',
+      body.orderId || body.orderid || '',
+      body.country || 'MOROCCO',
+      body.name || '',
+      formatPhone(body.phone || ''),
+      body.product || '',
+      body.sku || '',
+      body.quantity || '',
+      body.totalPrice != null ? body.totalPrice : (body['total price'] || ''),
+      body.currency || 'MAD',
+      body.status || '',
+    ];
 
-    return ContentService.createTextOutput(
-      JSON.stringify({ success: true, timestamp: timestamp })
-    ).setMimeType(ContentService.MimeType.JSON);
+    sheet.appendRow(row);
 
+    return jsonResponse({ success: true, orderId: row[1] });
   } catch (err) {
-    console.error('Webhook error:', err.toString());
-    return ContentService.createTextOutput(
-      JSON.stringify({ error: err.toString() })
-    ).setMimeType(ContentService.MimeType.JSON);
+    const msg = err && err.toString ? err.toString() : String(err);
+    console.error('Webhook error:', msg);
+    return jsonResponse({ success: false, error: msg });
   }
 }
 
-function doGet(e) {
-  return ContentService.createTextOutput(
-    JSON.stringify({ status: 'ok', service: 'hnina-sheets-webhook' })
-  ).setMimeType(ContentService.MimeType.JSON);
+function doGet() {
+  return jsonResponse({ success: true, service: 'hnina-orders-webhook', status: 'ok' });
+}
+
+function jsonResponse(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 /**
- * Get or create a sheet with headers.
+ * Phones are stored as text so leading zeros are preserved.
+ */
+function formatPhone(value) {
+  if (value === null || value === undefined) return '';
+  const str = String(value);
+  return str.startsWith("'") ? str : "'" + str;
+}
+
+/**
+ * Get or create the sheet with the expected header row.
  */
 function getOrCreateSheet(ss, name, headers) {
   let sheet = ss.getSheetByName(name);
   if (!sheet) {
     sheet = ss.insertSheet(name);
-    sheet.appendRow(headers);
-    // Style header row
-    const headerRange = sheet.getRange(1, 1, 1, headers.length);
-    headerRange.setBackground('#4F6F52');
-    headerRange.setFontColor('#FBF7F1');
-    headerRange.setFontWeight('bold');
-    sheet.setFrozenRows(1);
-  } else if (sheet.getLastRow() === 0) {
+  }
+  if (sheet.getLastRow() === 0) {
     sheet.appendRow(headers);
     const headerRange = sheet.getRange(1, 1, 1, headers.length);
     headerRange.setBackground('#4F6F52');
@@ -155,68 +134,27 @@ function getOrCreateSheet(ss, name, headers) {
 }
 
 /**
- * Manual test function — run from Apps Script editor.
+ * Manual smoke test — run from the Apps Script editor.
+ * Adds one fake order row to verify the wiring.
  */
 function testWebhook() {
-  const testPayload = {
-    secret: SCRIPT_SECRET,
-    order: {
-      orderId: 'HN-20260605-TEST',
-      createdAt: new Date().toISOString(),
-      status: 'received',
-      customerName: 'تست - سلمى',
-      phone: '0612345678',
-      city: 'الدار البيضاء',
-      address: 'شارع محمد الخامس، حي المعاريف',
-      subtotal: 299,
-      deliveryFee: 0,
-      total: 299,
-      currency: 'MAD',
-      upsellShown: true,
-      upsellAccepted: false,
-      upsellProductId: '',
-      sourcePage: 'https://hnina.shop/products/hnina-mama',
-      utmSource: 'facebook',
-      utmMedium: 'paid',
-      utmCampaign: 'test',
-      eventId: 'order_test_123',
-      userAgent: 'TestAgent/1.0',
+  const fakeEvent = {
+    postData: {
+      contents: JSON.stringify({
+        date: '11/06/2026',
+        orderId: 'HNINA-20260611-9999',
+        country: 'MOROCCO',
+        name: 'تست - فاطمة الزهراء',
+        phone: '0610950849',
+        product: 'حنينة ماما/حنينة جذور',
+        sku: 'HNM-7281/HNJ-3469',
+        quantity: '2/1',
+        totalPrice: 597,
+        currency: 'MAD',
+        status: '',
+      }),
     },
-    items: [
-      {
-        orderId: 'HN-20260605-TEST',
-        productId: 'hnina-mama',
-        sku: 'HNINA-MAMA',
-        nameAr: 'حنينة ماما — زيت الهندية والأرغان لتشققات الحمل وشد البشرة',
-        quantity: 2,
-        unitPrice: 149.5,
-        lineTotal: 299,
-        isUpsell: false,
-      },
-    ],
-    events: [
-      {
-        orderId: 'HN-20260605-TEST',
-        type: 'order_created',
-        message: 'Test order from Apps Script editor',
-      },
-    ],
   };
-
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const timestamp = new Date().toISOString();
-
-  if (testPayload.order) {
-    const ordersSheet = getOrCreateSheet(ss, SHEET_NAMES.ORDERS, ORDER_HEADERS);
-    const o = testPayload.order;
-    ordersSheet.appendRow([
-      o.orderId, o.createdAt, o.status, o.customerName, o.phone, o.city, o.address,
-      o.subtotal, o.deliveryFee, o.total, o.currency,
-      o.upsellShown ? 'نعم' : 'لا', o.upsellAccepted ? 'نعم' : 'لا', o.upsellProductId,
-      o.sourcePage, o.utmSource, o.utmMedium, o.utmCampaign, o.eventId, o.userAgent,
-      '', '', '', '', 'TEST ROW',
-    ]);
-  }
-
-  Logger.log('Test webhook ran successfully.');
+  const out = doPost(fakeEvent);
+  Logger.log(out.getContent());
 }
