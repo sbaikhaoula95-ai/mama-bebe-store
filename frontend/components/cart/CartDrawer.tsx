@@ -17,6 +17,7 @@ import { MOROCCAN_PHONE_REGEX } from "@/lib/phone";
 import { generateEventId } from "@/lib/event-id";
 import { getUTMParams, getClickIds, getCookieValue } from "@/lib/utm";
 import { createOrder } from "@/lib/api";
+import { sendOrderToSheet } from "@/lib/sheet-webhook";
 import {
   trackInitiateCheckout,
   trackPurchase,
@@ -255,6 +256,26 @@ export function CartDrawer() {
       };
 
       const response = await createOrder(payload);
+
+      // Belt-and-suspenders: also POST directly from the browser to the
+      // Google Apps Script Sheet webhook so the row arrives even if the
+      // backend's SHEET_WEBHOOK_URL is missing or its deployment lags.
+      // Never throws — the order itself must not be blocked by Sheets.
+      sendOrderToSheet({
+        orderNumber: response.orderNumber,
+        customerName: formData.fullName,
+        phone: formData.phone,
+        totalPrice: finalTotal,
+        items: orderItems.map((i) => ({
+          sku: i.sku,
+          arabicName: i.name,
+          quantity: i.quantity,
+        })),
+      }).then((result) => {
+        if (!result.success && result.error !== "not_configured") {
+          console.warn("Direct sheet webhook failed:", result.error);
+        }
+      });
 
       trackPurchase(
         {
