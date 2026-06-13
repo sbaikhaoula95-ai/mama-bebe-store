@@ -46,6 +46,20 @@ class Settings(BaseSettings):
     maxmind_risk_score_threshold: float = 25.0
     maxmind_whitelisted_phones: str = "0610000000"
 
+    # Admin dashboard auth
+    admin_username: str = "admin"
+    admin_password: str = ""
+    admin_token_secret: str = "CHANGE_ME_ADMIN_TOKEN_SECRET"
+    admin_token_ttl_hours: int = 12
+
+    # Analytics / page-view tracking
+    # When true, every public /api/track/pageview hit triggers a MaxMind lookup
+    # (cached in DB for `tracking_ip_cache_hours` hours so we don't burn API credits).
+    # Only "valid Moroccan, non-VPN" hits will be counted as clicks in the dashboard.
+    tracking_enabled: bool = True
+    tracking_ip_cache_hours: int = 168  # 7 days
+    tracking_ip_country_whitelist: str = "MA"
+
     @property
     def cors_origins(self) -> List[str]:
         origins = [o.strip() for o in self.allowed_origins.split(",") if o.strip()]
@@ -59,6 +73,14 @@ class Settings(BaseSettings):
             phone.strip()
             for phone in self.maxmind_whitelisted_phones.split(",")
             if phone.strip()
+        }
+
+    @property
+    def tracking_country_whitelist(self) -> set[str]:
+        return {
+            c.strip().upper()
+            for c in self.tracking_ip_country_whitelist.split(",")
+            if c.strip()
         }
 
 

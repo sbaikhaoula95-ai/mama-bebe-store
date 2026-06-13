@@ -4,13 +4,18 @@ export const SITE = {
   domain: "hnina.shop",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://hnina.shop",
   apiUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.hnina.shop",
-  tagline: "عناية طبيعية وموثوقة لماما والبيبي",
+  // Identity (see BRAND.md):
+  // Hnina = the modern Moroccan natural apothecary for mom & baby.
+  // Authority of a pharmacy, tenderness of a mother, heritage of beldi ingredients.
+  tagline: "صيدلية طبيعية لماما والبيبي — مكونات مغربية، آمنة، موصى بها من طرف أطباء الأطفال والقابلات.",
+  taglineFr:
+    "Apothicaire naturel pour Maman & Bébé — Made in Morocco, validé par sages-femmes & pédiatres.",
   description:
-    "منتجات حنينة للعناية بماما والبيبي بمكونات طبيعية، الدفع عند الاستلام والتوصيل في المغرب.",
+    "حنينة هي الصيدلية الطبيعية المغربية لماما والبيبي. مكونات مغربية أصيلة، تركيبات مختبرة جلديا، الدفع عند الاستلام والتوصيل في 24-48 ساعة.",
   seo: {
-    homeTitle: "حنينة | عناية طبيعية لماما والبيبي في المغرب",
+    homeTitle: "حنينة | الصيدلية الطبيعية لماما والبيبي في المغرب",
     homeDescription:
-      "منتجات حنينة للعناية بماما والبيبي بمكونات طبيعية، الدفع عند الاستلام والتوصيل في المغرب.",
+      "حنينة — الصيدلية الطبيعية المغربية لماما والبيبي. مكونات مغربية أصيلة، موصى بها من طرف أطباء الأطفال والقابلات. الدفع عند الاستلام، توصيل 24-48 ساعة.",
   },
   contact: {
     email: "contact@hnina.shop",
@@ -23,10 +28,16 @@ export const SITE = {
     facebook: "https://facebook.com/hnina.shop",
     tiktok: "https://tiktok.com/@hnina.shop",
   },
-  brandPromise:
-    "إلا ما كانش مزيان لوليدك، ما كاينش فحنينة.",
+  brandPromise: "إلا ما كانش مزيان لوليدك، ما كاينش فحنينة.",
+  brandPositioning: "صيدلية حنينة الطبيعية · ماما والبيبي · صنع في المغرب",
   footerCopy:
-    "حنينة علامة مغربية للعناية الطبيعية بماما والبيبي. كنختارو مكونات لطيفة، واضحة، ومفهومة باش كل ماما تحس بالأمان قبل ما تطلب.",
+    "حنينة هي الصيدلية الطبيعية المغربية لماما والبيبي. منتجاتنا مصنوعة بمكونات مغربية أصيلة، مختبرة جلديا، وموصى بها من طرف أطباء الأطفال والقابلات — باش كل ماما تحس بالأمان قبل وبعد ما تطلب.",
+  authorityChips: [
+    "👩‍⚕️ موصى به من أطباء الأطفال",
+    "🤱 موافق عليه من القابلات",
+    "🧪 مختبر جلديا",
+    "🇲🇦 صنع في المغرب",
+  ],
   nav: [
     { label: "الرئيسية", href: "/" },
     { label: "المنتجات", href: "/products" },

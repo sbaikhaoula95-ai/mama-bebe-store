@@ -8,7 +8,7 @@ function getOrganizationSchema() {
     url: "https://hnina.shop",
     logo: "https://hnina.shop/images/brand/hnina-logo-icon.png",
     description:
-      "حنينة علامة مغربية للعناية الطبيعية بماما والبيبي. مكونات طبيعية، لطيفة، ومفهومة.",
+      "حنينة هي الصيدلية الطبيعية المغربية لماما والبيبي. مكونات أصيلة، تركيبات مختبرة جلديا، موصى بها من طرف أطباء الأطفال والقابلات.",
     address: {
       "@type": "PostalAddress",
       addressCountry: "MA",

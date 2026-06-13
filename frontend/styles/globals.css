@@ -7,6 +7,7 @@
     --color-cream: #FBF7F1;
     --color-sage: #7C9A82;
     --color-forest: #4F6F52;
+    --color-pharmacy: #1F4F3A;
     --color-ink: #22332A;
     --color-blush: #D8A39B;
     --color-gold: #C7A35B;
@@ -45,15 +46,26 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-forest text-cream font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:bg-ink active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-lg;
+    @apply bg-pharmacy text-cream font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:bg-ink active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed text-lg;
   }
 
   .btn-secondary {
-    @apply border-2 border-forest text-forest font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:bg-forest hover:text-cream active:scale-95 text-lg;
+    @apply border-2 border-pharmacy text-pharmacy font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:bg-pharmacy hover:text-cream active:scale-95 text-lg;
   }
 
   .btn-danger {
     @apply bg-danger text-white font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:opacity-90 active:scale-95 text-lg;
+  }
+
+  /* Apothecary authority chip — used for pediatrician/midwife/lab cues */
+  .chip-authority {
+    @apply inline-flex items-center gap-1.5 bg-cream border border-pharmacy/15 text-pharmacy text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full;
+  }
+
+  /* Pharmacy cross — small decorative motif */
+  .pharmacy-cross::before {
+    content: "✚";
+    @apply text-pharmacy/40 mx-2;
   }
 
   .section-padding {
@@ -69,11 +81,11 @@
   }
 
   .trust-chip {
-    @apply inline-flex items-center gap-1.5 bg-sage/10 text-forest text-sm font-medium px-3 py-1.5 rounded-full;
+    @apply inline-flex items-center gap-1.5 bg-sage/10 text-pharmacy text-sm font-medium px-3 py-1.5 rounded-full;
   }
 
   .form-input {
-    @apply w-full border-2 border-ink/20 rounded-xl px-4 py-3.5 text-ink text-base bg-white focus:outline-none focus:border-forest transition-colors duration-150 placeholder:text-ink/40;
+    @apply w-full border-2 border-ink/20 rounded-xl px-4 py-3.5 text-ink text-base bg-white focus:outline-none focus:border-pharmacy transition-colors duration-150 placeholder:text-ink/40;
   }
 
   .form-input-error {
@@ -109,11 +121,11 @@
   }
 
   .offer-tier-card.selected {
-    @apply border-forest bg-forest/5;
+    @apply border-pharmacy bg-pharmacy/5;
   }
 
   .offer-tier-card:not(.selected) {
-    @apply border-ink/15 bg-white hover:border-forest/50;
+    @apply border-ink/15 bg-white hover:border-pharmacy/50;
   }
 }
 
@@ -188,8 +200,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 111, 82, 0.3); }
-  50% { box-shadow: 0 0 20px 5px rgba(79, 111, 82, 0.1); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 79, 58, 0.3); }
+  50% { box-shadow: 0 0 20px 5px rgba(31, 79, 58, 0.1); }
 }
 
 @keyframes shimmer {
@@ -367,12 +379,12 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4F6F52;
+  background: #1F4F3A;
 }
 
 /* Focus visible */
 :focus-visible {
-  outline: 2px solid #4F6F52;
+  outline: 2px solid #1F4F3A;
   outline-offset: 2px;
 }
 
@@ -394,7 +406,7 @@
 
 /* Selection color */
 ::selection {
-  background: rgba(79, 111, 82, 0.2);
+  background: rgba(31, 79, 58, 0.2);
   color: #22332A;
 }
 
@@ -403,9 +415,9 @@ main {
   animation: fade-in 0.4s ease-out;
 }
 
-/* Modern gradient text */
+/* Modern gradient text — apothecary cue (pharmacy deep → sage → gold) */
 .gradient-text {
-  background: linear-gradient(135deg, #4F6F52 0%, #7C9A82 50%, #C7A35B 100%);
+  background: linear-gradient(135deg, #1F4F3A 0%, #4F6F52 50%, #C7A35B 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

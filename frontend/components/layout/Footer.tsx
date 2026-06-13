@@ -3,10 +3,10 @@ import Link from "next/link";
 import { SITE } from "@/config/site";
 
 const productLinks = [
-  { href: "/products/hnina-mama", label: "حنينة ماما", note: "للماما والحمل" },
-  { href: "/products/hnina-jodour", label: "حنينة جذور", note: "ضد تساقط الشعر" },
-  { href: "/products/hnina-calm", label: "حنينة كالم", note: "للبشرة الحساسة" },
-  { href: "/products", label: "كل المنتجات", note: "اختاري المناسب" },
+  { href: "/products/hnina-mama", label: "حنينة ماما", note: "للماما — تشققات الحمل" },
+  { href: "/products/hnina-jodour", label: "حنينة جذور", note: "للماما — تساقط الشعر" },
+  { href: "/products/hnina-calm", label: "حنينة كالم", note: "للبيبي — البشرة الحساسة" },
+  { href: "/products", label: "كل المنتجات", note: "ماما + بيبي · 199 د" },
 ];
 
 export function Footer() {
@@ -61,18 +61,16 @@ export function Footer() {
             <p className="mt-4 text-sm font-medium italic text-gold">
               {SITE.brandPromise}
             </p>
-            {/* Trust badges */}
-            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3 md:flex md:flex-wrap">
-              {["💵 الدفع عند الاستلام", "🚀 24-48 ساعة", "🌿 طبيعي 100٪"].map(
-                (badge) => (
-                  <span
-                    key={badge}
-                    className="rounded-2xl bg-cream/10 px-3 py-2 text-center text-xs font-bold text-cream/80"
-                  >
-                    {badge}
-                  </span>
-                )
-              )}
+            {/* Authority chips */}
+            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 md:flex md:flex-wrap">
+              {SITE.authorityChips.map((badge) => (
+                <span
+                  key={badge}
+                  className="rounded-2xl bg-cream/10 px-3 py-2 text-center text-xs font-bold text-cream/80"
+                >
+                  {badge}
+                </span>
+              ))}
             </div>
           </div>
 
@@ -179,7 +177,9 @@ export function Footer() {
         </div>
 
         <div className="mt-6 border-t border-cream/10 pt-6 text-center text-xs text-cream/30">
-          <p>© {new Date().getFullYear()} حنينة — جميع الحقوق محفوظة · hnina.shop</p>
+          <p>
+            © {new Date().getFullYear()} حنينة — صيدلية طبيعية لماما والبيبي · صنع في المغرب · hnina.shop
+          </p>
         </div>
       </div>
     </footer>

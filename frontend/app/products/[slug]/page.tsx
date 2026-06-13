@@ -341,34 +341,6 @@ export default async function ProductPage({
         </div>
       </section>
 
-      {/* 7. SOCIAL PROOF / UGC (Grid) */}
-      <section className="section-padding bg-forest text-cream">
-        <div className="container-site">
-          <SectionHeader
-            eyebrow="تجارب حقيقية"
-            title="ماميات جربو حنينة وشاركونا تجربتهم"
-            className="mb-12 [&_h2]:text-cream [&_p]:text-cream/70 [&_span]:bg-cream/15 [&_span]:text-cream"
-          />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="relative aspect-[9/16] bg-cream/10 rounded-2xl overflow-hidden group cursor-pointer">
-                <PlaceholderImage
-                  imageKey={`ugc-video-${i}`}
-                  alt={`تجربة زبونة ${i}`}
-                  aspectRatio="portrait"
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center text-white">
-                    ▶
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* 8. REVIEWS */}
       <section className="section-padding bg-cream">
         <div className="container-site">

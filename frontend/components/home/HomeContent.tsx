@@ -11,76 +11,84 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const homeFaq = [
   {
-    question: "واش المنتجات مامونة؟",
+    question: "علاش نثق فحنينة بحال صيدلية؟",
     answer:
-      "نعم، كل منتجات حنينة مصممة بمكونات طبيعية، لطيفة على البشرة الحساسة. نوصيك تديري اختبار صغير على منطقة صغيرة قبل الاستعمال.",
+      "حنينة كتشتغل بمنطق صيدلية طبيعية: كل تركيبة مختبرة جلديا، كل مكون موثق فالملصق (INCI كامل)، وكل منتج موصى به من طرف أطباء الأطفال والقابلات. كنخدمو فقط بمكونات معروفة فالمغرب وبدون مواد كيميائية قاسية.",
+  },
+  {
+    question: "واش المنتجات مامونة على البيبي وعلى الماما الحامل؟",
+    answer:
+      "نعم. منتجات حنينة موضعية، طبيعية، خالية من البارابين والسلفات والكحول والعطور الاصطناعية. مع ذلك، كنوصيك دائما بإختبار صغير على منطقة صغيرة قبل أول استعمال — كما توصي به أي صيدلية.",
   },
   {
     question: "واش نقدر نخلص عند الاستلام؟",
     answer:
-      "بالتأكيد. الدفع عند الاستلام هو الطريقة الوحيدة للدفع. ما تخلصي والو حتى يوصلك الطلب.",
+      "بالتأكيد. الدفع عند الاستلام هو الطريقة الوحيدة للدفع فحنينة. ما كتخلصي والو حتى توصلك السلعة بيديك وتتأكدي منها.",
   },
   {
     question: "شحال كيوصل الطلب؟",
     answer:
-      "التوصيل في 24-48 ساعة في معظم مدن المغرب. كنعيطو ليك نأكدو الطلب والعنوان قبل التوصيل.",
-  },
-  {
-    question: "كيفاش كنستعمل كل منتج؟",
-    answer:
-      "كل منتج عنده تعليمات استعمال واضحة. بشكل عام: خدي كمية صغيرة، سخنيها بين يديك، ودهني برفق.",
+      "التوصيل في 24-48 ساعة فأغلب مدن المغرب. كنعيطو ليك أولا باش نأكدو الطلب ونأخذو العنوان النهائي بالداريجة.",
   },
   {
     question: "واش نقدر نطلب أكثر من منتج؟",
     answer:
-      "نعم. كلما زادت الكمية، كلما كان الثمن أحسن. قطعتان بـ 299 درهم وثلاث قطع بـ 399 درهم.",
+      "نعم. كلما زادت الكمية، كلما كان الثمن أحسن: قطعة 199 درهم · قطعتان 299 درهم · ثلاث قطع 399 درهم. كتقدري تخلطي بين منتجات الماما ومنتجات البيبي.",
   },
 ];
 
 export function HomeContent() {
   return (
     <>
-      {/* 1. HERO */}
-      <section className="bg-gradient-to-b from-blush/10 via-cream to-cream section-padding relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-sage/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
+      {/* 1. HERO — apothecary authority + maternal warmth */}
+      <section className="bg-gradient-to-b from-cream via-cream to-cream section-padding relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-pharmacy/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blush/10 rounded-full blur-[80px] translate-x-1/3 translate-y-1/3"></div>
         <div className="container-site relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col gap-6 order-2 lg:order-1 animate-fade-up">
-              <span className="badge-gold self-start animate-fade-up delay-100">علامة مغربية لماما والبيبي</span>
+              <span className="chip-authority self-start animate-fade-up delay-100">
+                ✚ صيدلية طبيعية · ماما والبيبي
+              </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-ink leading-tight text-balance animate-fade-up delay-200">
-                عناية طبيعية وموثوقة للحظات اللي كتهمك{" "}
-                <span className="gradient-text">أنتِ ووليدك</span>
+                <span className="gradient-text">حنينة</span> — الصيدلية الطبيعية المغربية
+                <span className="block text-ink/90 mt-2">لماما والبيبي</span>
               </h1>
               <p className="text-lg md:text-xl text-ink/70 leading-relaxed animate-fade-up delay-300">
-                حنينة كتجمع مكونات طبيعية موثوقة بحال الهندية، الأرغان، إكليل الجبل،
-                الجرجير والكاليندولا فمنتجات لطيفة وسهلة الاستعمال للماما والبيبي.
+                مكونات مغربية أصيلة — الهندية، الأرغان، إكليل الجبل، الجرجير والكاليندولا —
+                مصاغة فتركيبات مختبرة جلديا، وموصى بها من طرف{" "}
+                <strong className="text-pharmacy">أطباء الأطفال والقابلات</strong>.
+                ما عاد خاصك تخمي قبل ما تطلبي.
               </p>
 
               <div className="animate-fade-up delay-400">
                 <TrustBadges
                   variant="chips"
                   badges={[
-                    { icon: "💵", text: "الدفع عند الاستلام" },
-                    { icon: "🚀", text: "توصيل 24-48 ساعة" },
+                    { icon: "👩‍⚕️", text: "موصى به من أطباء الأطفال" },
                     { icon: "🧪", text: "مختبر جلديا" },
-                    { icon: "💚", text: "مناسب للبشرة الحساسة" },
+                    { icon: "🇲🇦", text: "صنع في المغرب" },
+                    { icon: "💵", text: "الدفع عند الاستلام" },
                   ]}
                 />
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 mt-4 animate-fade-up delay-500">
                 <Link href="/products" className="btn-primary text-center text-lg px-8 py-4 animate-pulse-glow">
-                  تسوقي منتجات حنينة
+                  تسوقي صيدلية حنينة
                 </Link>
                 <Link href="#why-hnina" className="btn-secondary text-center text-lg px-8 py-4">
                   علاش الماميات كيثقو فينا؟
                 </Link>
               </div>
+
+              <p className="text-sm text-ink/50 mt-2 font-medium">
+                ✚ +10.000 ماما مغربية كتختار حنينة · تركيبات بدون بارابين، سلفات، كحول أو عطور اصطناعية
+              </p>
             </div>
 
             <div className="order-1 lg:order-2 relative animate-scale-in delay-200">
-              <div className="absolute inset-0 bg-forest/5 rounded-[3rem] transform -rotate-3 scale-105 -z-10 animate-float"></div>
+              <div className="absolute inset-0 bg-pharmacy/5 rounded-[3rem] transform -rotate-3 scale-105 -z-10 animate-float"></div>
               <PlaceholderImage
                 imageKey="home-hero-moroccan-mom-baby-natural-care"
                 alt="ماما مغربية مع بيبيها تستخدم منتجات حنينة الطبيعية"
@@ -88,6 +96,25 @@ export function HomeContent() {
                 className="max-w-md mx-auto lg:max-w-none rounded-[3rem] shadow-2xl img-zoom"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 1b. AUTHORITY STRIP — pharmacy-grade trust bar */}
+      <section className="bg-pharmacy text-cream py-6 border-y border-pharmacy/30">
+        <div className="container-site">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
+            {[
+              { icon: "👩‍⚕️", label: "موصى به من أطباء الأطفال والقابلات" },
+              { icon: "🧪", label: "مختبر جلديا — تركيبات لطيفة" },
+              { icon: "🌿", label: "مكونات مغربية من تعاونيات معتمدة" },
+              { icon: "🛡️", label: "بدون بارابين · سلفات · كحول · عطور" },
+            ].map((b) => (
+              <div key={b.label} className="flex flex-col items-center gap-1.5">
+                <span className="text-2xl" role="img" aria-hidden="true">{b.icon}</span>
+                <span className="text-xs md:text-sm font-bold text-cream/90 leading-tight">{b.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -108,28 +135,33 @@ export function HomeContent() {
             <ScrollReveal direction="left" className="order-2 lg:order-2 flex flex-col gap-6">
               <SectionHeader
                 eyebrow="حنا كنفهموك"
-                title="الأمومة زوينة، ولكن أحيانا كتحسي بالضغط"
+                title="ما بقاتش كتلقاي منتجات لماما وللبيبي تستحقي تثقي فيها؟"
                 align="start"
               />
-              <p className="text-xl leading-relaxed text-ink/80 border-r-4 border-blush pr-6 py-2">
-                عارفين بلي كتخافي على بيبيك من أي حاجة كيميائية، وعارفين بلي جسمك تبدل وبغيتي ترجعي ثقتك بنفسك بلا ما تستعملي منتجات مجهولة المصدر.
+              <p className="text-xl leading-relaxed text-ink/80 border-r-4 border-pharmacy pr-6 py-2">
+                المنتجات المستوردة غاليين، الزيوت ديال السوق ما عندهاش ضمانة، والصيدلية كتعطيك منتجات كيميائية ما كتفهميش مكوناتها. ما بقاتش عارفة شكون تثقي فيه — لا ليك ولا لبيبيك.
               </p>
               <p className="text-lg text-ink/70 leading-relaxed">
-                داكشي علاش خلقنا <span className="font-bold text-forest">حنينة</span>. باش نعطيوك منتجات طبيعية، بسيطة، ومفهومة. منتجات كترد ليك الثقة والراحة، وكتخليك تستمتعي بكل لحظة مع وليدك.
+                داكشي علاش خلقنا <span className="font-bold text-pharmacy">حنينة</span> — صيدلية طبيعية مغربية لماما والبيبي. كل تركيبة مدروسة، كل مكون موثق، كل منتج موصى به من طرف أطباء الأطفال والقابلات. الجمع بين العلم والطبيعة، باللهجة المغربية.
               </p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <span className="chip-authority">✚ تركيبات مدروسة</span>
+                <span className="chip-authority">✚ مكونات موثقة</span>
+                <span className="chip-authority">✚ موصى بها طبيا</span>
+              </div>
             </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* 3. PROBLEM TRIPTYCH */}
+      {/* 3. THREE SECTIONS — رفوف الصيدلية */}
       <section className="section-padding bg-cream">
         <div className="container-site">
           <ScrollReveal>
             <SectionHeader
-              eyebrow="منتجاتنا"
-              title="حلول طبيعية لكل لحظة"
-              subtitle="حنينة كتفهم التحديات اليومية لكل ماما وكتقدم حلول طبيعية وبسيطة"
+              eyebrow="رفوف صيدلية حنينة"
+              title="ثلاثة حلول طبيعية · لماما وللبيبي"
+              subtitle="كل منتج موجه لمشكلة وحدة، بتركيبة مدروسة ومكونات معروفة فالصيدليات المغربية."
               className="mb-12"
             />
           </ScrollReveal>
@@ -137,25 +169,28 @@ export function HomeContent() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
-                  emoji: "🌿",
+                  emoji: "🌸",
+                  category: "للماما — الحمل وبعده",
                   title: "تشققات الحمل وشد البشرة",
-                  body: "زيت الهندية والأرغان يساعد بشرتك تبقى مرنة خلال الحمل وبعد الولادة",
+                  body: "حنينة ماما: زيت الهندية والأرغان من تعاونيات سوس — يدعم مرونة البشرة خلال الحمل وبعد الولادة.",
                   href: "/products/hnina-mama",
                   cta: "اكتشفي حنينة ماما",
                   bg: "from-blush/15 to-white",
                 },
                 {
                   emoji: "💆‍♀️",
-                  title: "تساقط الشعر بعد الولادة",
-                  body: "زيت بإكليل الجبل والجرجير كيقوي الجذور ويرجع الكثافة لشعرك",
+                  category: "للماما — تساقط الشعر",
+                  title: "تقوية الجذور بعد الولادة",
+                  body: "حنينة جذور: إكليل الجبل، الجرجير والنيجلة — تركيبة تراثية معروفة فالصيدلية المغربية.",
                   href: "/products/hnina-jodour",
                   cta: "اكتشفي حنينة جذور",
                   bg: "from-sage/15 to-white",
                 },
                 {
-                  emoji: "🌸",
-                  title: "البشرة الجافة والحساسة",
-                  body: "بلسم الكاليندولا والأرغان يرطب ويهدئ بشرة البيبي الحساسة",
+                  emoji: "👶",
+                  category: "للبيبي — البشرة الحساسة",
+                  title: "ترطيب البشرة الجافة والمتهيجة",
+                  body: "حنينة كالم: بلسم الكاليندولا والأرغان وشمع النحل — للبشرة الحساسة جدا ديال البيبي.",
                   href: "/products/hnina-calm",
                   cta: "اكتشفي حنينة كالم",
                   bg: "from-gold/15 to-white",
@@ -164,15 +199,17 @@ export function HomeContent() {
                 <Link
                   key={card.href}
                   href={card.href}
-                  className={`bg-gradient-to-br ${card.bg} rounded-3xl p-8 flex flex-col gap-4 hover-lift group border border-ink/5`}
+                  className={`bg-gradient-to-br ${card.bg} rounded-3xl p-8 flex flex-col gap-3 hover-lift group border border-pharmacy/10`}
                 >
                   <span className="text-5xl mb-2" role="img" aria-hidden="true">
                     {card.emoji}
                   </span>
+                  <span className="chip-authority self-start">{card.category}</span>
                   <h3 className="text-2xl font-bold text-ink">{card.title}</h3>
                   <p className="text-ink/70 text-base leading-relaxed flex-grow">{card.body}</p>
-                  <span className="text-forest font-bold text-base group-hover:underline mt-4 flex items-center gap-2">
-                    {card.cta} <span className="text-xl transition-transform group-hover:-translate-x-1">←</span>
+                  <span className="text-pharmacy font-bold text-base group-hover:underline mt-4 flex items-center gap-2">
+                    {card.cta}{" "}
+                    <span className="text-xl transition-transform group-hover:-translate-x-1">←</span>
                   </span>
                 </Link>
               ))}
@@ -181,39 +218,56 @@ export function HomeContent() {
         </div>
       </section>
 
-      {/* 4. SCIENCE & PROOF */}
+      {/* 4. PROTOCOLE — لي معايير حنينة */}
       <section className="section-padding bg-white">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal direction="right" className="order-2 lg:order-1 flex flex-col gap-6">
               <SectionHeader
-                eyebrow="العلم والطبيعة"
-                title="جودة مختبرة، أمان مضمون"
+                eyebrow="بروتوكول حنينة"
+                title="نفس الصرامة ديال الصيدلية — بمكونات الطبيعة"
                 align="start"
               />
               <p className="text-lg text-ink/70 leading-relaxed">
-                ماشي غير هضرة. منتجات حنينة كتدوز من اختبارات صارمة باش نتأكدو أنها آمنة 100% على بشرتك وبشرة بيبيك.
+                كل منتج فحنينة كيدوز من بروتوكول صارم قبل ما يوصل ليك: اختيار المكون من تعاونية معتمدة،
+                تحليل مخبري، اختبار جلدي، مراجعة من طبيب أطفال أو قابلة، ترقيم الدفعة (batch code)
+                باش كل قنينة تكون قابلة للتتبع.
               </p>
               <div className="mt-4 flex flex-col gap-4">
                 <div className="glass p-5 rounded-2xl flex gap-4 items-center hover-lift">
-                  <span className="text-3xl">🔬</span>
+                  <span className="text-3xl">🧪</span>
                   <div>
-                    <h4 className="font-bold text-ink mb-1">مختبر جلدياً</h4>
-                    <p className="text-sm text-ink/60">تم اختباره من طرف أطباء الجلد للتأكد من خلوه من أي مهيجات.</p>
+                    <h4 className="font-bold text-ink mb-1">مختبر جلديا · INCI كامل</h4>
+                    <p className="text-sm text-ink/60">
+                      كل تركيبة مختبرة لتجنب أي تهيج، ومكوناتها كاملة موثقة فالملصق بحال الصيدلية.
+                    </p>
                   </div>
                 </div>
                 <div className="glass p-5 rounded-2xl flex gap-4 items-center hover-lift">
-                  <span className="text-3xl">🌿</span>
+                  <span className="text-3xl">👩‍⚕️</span>
                   <div>
-                    <h4 className="font-bold text-ink mb-1">0% مواد كيميائية قاسية</h4>
-                    <p className="text-sm text-ink/60">بدون بارابين، بدون سلفات، وبدون عطور اصطناعية.</p>
+                    <h4 className="font-bold text-ink mb-1">مراجعة من أطباء الأطفال والقابلات</h4>
+                    <p className="text-sm text-ink/60">
+                      كل منتج كيتم مراجعتو من طرف مهنيين فالميدان قبل ما يدخل الكاطالوگ ديال حنينة.
+                    </p>
+                  </div>
+                </div>
+                <div className="glass p-5 rounded-2xl flex gap-4 items-center hover-lift">
+                  <span className="text-3xl">🛡️</span>
+                  <div>
+                    <h4 className="font-bold text-ink mb-1">0٪ بارابين · سلفات · كحول · عطور اصطناعية</h4>
+                    <p className="text-sm text-ink/60">
+                      ولا أي مكون مشكوك فيه. تركيبات نظيفة، بسيطة، ومفهومة — بحال ما خاص يكون.
+                    </p>
                   </div>
                 </div>
                 <div className="glass p-5 rounded-2xl flex gap-4 items-center hover-lift">
                   <span className="text-3xl">🇲🇦</span>
                   <div>
-                    <h4 className="font-bold text-ink mb-1">صنع في المغرب</h4>
-                    <p className="text-sm text-ink/60">مكونات محلية من تعاونيات مغربية معتمدة وموثوقة.</p>
+                    <h4 className="font-bold text-ink mb-1">صنع في المغرب · مكونات من التعاونيات</h4>
+                    <p className="text-sm text-ink/60">
+                      الأرغان من سوس، الهندية من أگادير، اللافندة من الأطلس المتوسط — أصول موثقة.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -251,21 +305,23 @@ export function HomeContent() {
             </div>
           </ScrollReveal>
 
-          {/* AOV block */}
+          {/* AOV block — routine complète maman+bébé */}
           <ScrollReveal direction="scale">
-            <div className="mt-16 bg-forest text-cream rounded-[3rem] p-10 md:p-16 text-center relative overflow-hidden shadow-2xl">
+            <div className="mt-16 bg-pharmacy text-cream rounded-[3rem] p-10 md:p-16 text-center relative overflow-hidden shadow-2xl">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent"></div>
               <div className="relative z-10">
-                <span className="inline-block bg-gold/20 text-gold font-bold px-4 py-1.5 rounded-full mb-6 text-sm">عرض خاص</span>
+                <span className="inline-block bg-gold/20 text-gold font-bold px-4 py-1.5 rounded-full mb-6 text-sm">
+                  ✚ روتين ماما + بيبي
+                </span>
                 <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                  خدي 2 ب 299 درهم<br/>أو 3 ب 399 درهم
+                  خدي 2 ب 299 درهم<br />أو 3 ب 399 درهم
                 </h3>
                 <p className="text-cream/80 mb-10 text-xl max-w-2xl mx-auto leading-relaxed">
-                  كلما زادت الكمية، كلما كان الثمن أحسن. ابدأي برتوال متكامل من أول طلب، واستافدي من التوصيل السريع.
+                  كلما زادت الكمية، كلما كان الثمن أحسن. خلطي بين منتج للماما ومنتج للبيبي — وكوني عندك صيدلية حنينة كاملة فالدار.
                 </p>
-                <Link href="/products" className="bg-cream text-forest font-bold text-xl px-12 py-5 rounded-full hover:bg-white hover:shadow-xl transition-all inline-block shadow-lg hover-lift">
+                <Link href="/products" className="bg-cream text-pharmacy font-bold text-xl px-12 py-5 rounded-full hover:bg-white hover:shadow-xl transition-all inline-block shadow-lg hover-lift">
                   شوفي كل العروض
                 </Link>
               </div>
@@ -279,8 +335,9 @@ export function HomeContent() {
         <div className="container-site">
           <ScrollReveal>
             <SectionHeader
-              eyebrow="لماذا حنينة"
-              title="عناية كتجمع بين الحنان والمعرفة"
+              eyebrow="علاش حنينة"
+              title="رحمة ماما · صرامة صيدلية"
+              subtitle="هاد المعادلة هي الفرق بين زيت من السوق وصيدلية طبيعية كتفهم الماما المغربية."
               className="mb-16"
             />
           </ScrollReveal>
@@ -288,17 +345,17 @@ export function HomeContent() {
           <div className="flex flex-col gap-20">
             {[
               {
-                title: "مكونات مفهومة ومن مصادر موثوقة",
-                body: "عارفة شحال كتقلقي من أي حاجة كتستعمليها فالدار مع البيبي. لذلك حنينة كتختار مكونات طبيعية، لطيفة، ومفهومة. زيت الهندية من سوس، والأرغان من تعاونيات مغربية.",
+                title: "بحال صيدلية — بشفافية كاملة على المكونات",
+                body: "كل قنينة فحنينة كاتجي بـ INCI كامل على الملصق، رقم دفعة (batch code)، تاريخ صلاحية واضح، ومصدر المكون. مكونات طبيعية مغربية، موثقة، بلا أي مفاجآت. هاد المستوى من الشفافية ما كاتلقاهش فالسوق ولا فالزيوت ديال السوبيرماركي.",
                 imageKey: "ingredient-argan",
-                badges: ["بدون بارابين", "بدون كحول", "مكونات طبيعية"],
+                badges: ["INCI كامل", "رقم دفعة", "تاريخ صلاحية واضح"],
                 reverse: false,
               },
               {
-                title: "الدفع عند الاستلام — ما تخسري والو",
-                body: "نعرفو أن الشراء أونلاين كيخلي بعض الماميات قلقانات. لهذا كنقدمو الدفع عند الاستلام فقط. كتشوفي المنتج وكتتأكدي منو قبل ما تخلصي.",
+                title: "بحال ماما — باللهجة، عند الاستلام، بلا ضغط",
+                body: "كنعيطو ليك بالداريجة باش نأكدو الطلب، نأخذو العنوان، ونجاوبوك على أسئلتك. الدفع عند الاستلام فقط — ما تخلصي والو حتى توصلك السلعة بيديك. وإلا ما عجبكيش المنتج، تواصلي معنا وكنحلو المشكل.",
                 imageKey: "home-hero-moroccan-mom-baby-natural-care",
-                badges: ["الدفع عند الاستلام", "توصيل 24-48 ساعة"],
+                badges: ["مكالمة بالداريجة", "دفع عند الاستلام", "توصيل 24-48 ساعة"],
                 reverse: true,
               },
             ].map((item, idx) => (
@@ -376,12 +433,12 @@ export function HomeContent() {
         </div>
       </section>
 
-      {/* 8. AUTHORITY SECTION */}
+      {/* 8. AUTHORITY SECTION — pediatrician + midwife */}
       <section className="section-padding bg-white">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal direction="right" className="order-1 lg:order-1 relative">
-              <div className="absolute inset-0 bg-sage/20 rounded-3xl transform -rotate-3 scale-105 -z-10"></div>
+              <div className="absolute inset-0 bg-pharmacy/15 rounded-3xl transform -rotate-3 scale-105 -z-10"></div>
               <PlaceholderImage
                 imageKey="authority-pediatrician-placeholder"
                 alt="طبيبة أطفال تنصح بمنتجات حنينة"
@@ -391,8 +448,8 @@ export function HomeContent() {
             </ScrollReveal>
             <ScrollReveal direction="left" className="order-2 lg:order-2 flex flex-col gap-6">
               <SectionHeader
-                eyebrow="ثقة الخبراء"
-                title="ينصح به أطباء الأطفال والقابلات"
+                eyebrow="✚ ثقة الخبراء"
+                title="موصى به من طرف أطباء الأطفال والقابلات المغربيات"
                 align="start"
               />
               <div className="glass rounded-3xl p-8 relative hover-lift">
@@ -493,29 +550,34 @@ export function HomeContent() {
         </div>
       </section>
 
-      {/* 10. GUARANTEE */}
+      {/* 10. GUARANTEE — ضمان حنينة */}
       <section className="section-padding bg-white">
         <div className="container-site max-w-4xl text-center">
           <ScrollReveal direction="scale">
-            <div className="bg-gradient-to-b from-cream to-white border border-gold/20 rounded-[3rem] p-10 md:p-16 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gold via-forest to-gold"></div>
-              <div className="w-24 h-24 bg-gold/10 text-gold rounded-full flex items-center justify-center text-5xl mx-auto mb-8 shadow-inner animate-float">
-                🛡️
+            <div className="bg-gradient-to-b from-cream to-white border border-pharmacy/20 rounded-[3rem] p-10 md:p-16 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pharmacy via-gold to-pharmacy"></div>
+              <div className="w-24 h-24 bg-pharmacy/10 text-pharmacy rounded-full flex items-center justify-center text-5xl mx-auto mb-8 shadow-inner animate-float">
+                ✚
               </div>
-              <h2 className="text-3xl md:text-5xl font-bold text-ink mb-6">ضمان حنينة 100%</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-ink mb-6">ضمان حنينة الكامل</h2>
               <p className="text-xl md:text-2xl text-ink/80 leading-relaxed max-w-2xl mx-auto mb-10">
-                &quot;إلا ما كانش مزيان لوليدك، ما كاينش فحنينة.&quot;<br/>
-                حنا متأكدين من جودة منتجاتنا. داكشي علاش كنقدمو ليك الدفع عند الاستلام. شوفي المنتج، تأكدي منو، وعاد خلصي. راحتك وراحة بيبيك هي الأهم عندنا.
+                &quot;إلا ما كانش مزيان لوليدك، ما كاينش فحنينة.&quot;
+                <br />
+                كل منتج فحنينة كيدوز من بروتوكول الصيدلية ديالنا قبل ما يوصل ليك.
+                ما عاد خاصك تجاربي بفلوسك — شوفي المنتج، تأكدي منو، وعاد خلصي.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <span className="glass px-6 py-3 rounded-full text-ink font-bold flex items-center gap-2 hover-lift">
-                  <span className="text-forest">✅</span> دفع عند الاستلام
+                  <span className="text-pharmacy">✚</span> دفع عند الاستلام فقط
                 </span>
                 <span className="glass px-6 py-3 rounded-full text-ink font-bold flex items-center gap-2 hover-lift">
-                  <span className="text-forest">✅</span> توصيل 24-48 ساعة
+                  <span className="text-pharmacy">✚</span> توصيل 24-48 ساعة
                 </span>
                 <span className="glass px-6 py-3 rounded-full text-ink font-bold flex items-center gap-2 hover-lift">
-                  <span className="text-forest">✅</span> خدمة زبناء في الاستماع
+                  <span className="text-pharmacy">✚</span> تتبع كل دفعة (batch)
+                </span>
+                <span className="glass px-6 py-3 rounded-full text-ink font-bold flex items-center gap-2 hover-lift">
+                  <span className="text-pharmacy">✚</span> خدمة زبناء بالداريجة
                 </span>
               </div>
             </div>
@@ -524,8 +586,8 @@ export function HomeContent() {
       </section>
 
       {/* 11. HOW COD WORKS */}
-      <section className="section-padding bg-forest text-cream relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-forest via-forest to-ink/50"></div>
+      <section className="section-padding bg-pharmacy text-cream relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-pharmacy via-pharmacy to-ink/50"></div>
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-white/[0.02] rounded-full blur-[80px]"></div>
         <div className="container-site relative">
           <ScrollReveal>
@@ -587,17 +649,22 @@ export function HomeContent() {
 
       {/* 13. FINAL CTA */}
       <section className="section-padding bg-gradient-to-b from-cream via-blush/10 to-blush/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(79,111,82,0.03)_0%,transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(31,79,58,0.03)_0%,transparent_70%)]"></div>
         <div className="container-site text-center relative">
           <ScrollReveal direction="scale">
+            <span className="chip-authority mb-6 inline-flex">✚ صيدلية حنينة الطبيعية</span>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-ink mb-6 leading-tight">
-              اختاري العناية اللي محتاجاها اليوم
+              ابدأي روتين العناية ديالك ودكشي ديال وليدك
             </h2>
             <p className="text-ink/70 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-              الدفع عند الاستلام، التوصيل في 24-48 ساعة، ومكونات طبيعية موثوقة.
+              مكونات مغربية أصيلة، تركيبات مختبرة جلديا، موصى بها من طرف أطباء الأطفال والقابلات.
+              الدفع عند الاستلام، التوصيل في 24-48 ساعة.
             </p>
-            <Link href="/products" className="btn-primary text-2xl px-16 py-6 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 animate-pulse-glow">
-              تسوقي منتجات حنينة
+            <Link
+              href="/products"
+              className="btn-primary text-2xl px-16 py-6 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 animate-pulse-glow"
+            >
+              تسوقي صيدلية حنينة
             </Link>
           </ScrollReveal>
         </div>

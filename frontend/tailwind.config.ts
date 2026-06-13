@@ -13,6 +13,7 @@ const config: Config = {
         cream: "#FBF7F1",
         sage: "#7C9A82",
         forest: "#4F6F52",
+        pharmacy: "#1F4F3A",
         ink: "#22332A",
         blush: "#D8A39B",
         gold: "#C7A35B",
@@ -53,8 +54,8 @@ const config: Config = {
           "50%": { transform: "translateY(-8px)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(79, 111, 82, 0.3)" },
-          "50%": { boxShadow: "0 0 20px 5px rgba(79, 111, 82, 0.1)" },
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(31, 79, 58, 0.3)" },
+          "50%": { boxShadow: "0 0 20px 5px rgba(31, 79, 58, 0.1)" },
         },
       },
       transitionTimingFunction: {

@@ -1,12 +1,10 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Cairo } from "next/font/google";
 import "@/styles/globals.css";
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
-import { CartDrawer } from "@/components/cart/CartDrawer";
+import { StorefrontChrome } from "@/components/layout/StorefrontChrome";
 import { PixelLoader } from "@/components/tracking/PixelLoader";
+import { PageViewTracker } from "@/components/tracking/PageViewTracker";
 import { HomeJsonLd } from "@/components/seo/JsonLd";
 
 const cairo = Cairo({
@@ -18,20 +16,22 @@ const cairo = Cairo({
 
 export const metadata: Metadata = {
   title: {
-    default: "حنينة | عناية طبيعية لماما والبيبي في المغرب",
+    default: "حنينة | الصيدلية الطبيعية لماما والبيبي في المغرب",
     template: "%s | حنينة",
   },
   description:
-    "منتجات حنينة للعناية بماما والبيبي بمكونات طبيعية، الدفع عند الاستلام والتوصيل في المغرب.",
+    "حنينة — الصيدلية الطبيعية المغربية لماما والبيبي. مكونات مغربية أصيلة، موصى بها من طرف أطباء الأطفال والقابلات. الدفع عند الاستلام، توصيل 24-48 ساعة.",
   keywords: [
     "حنينة",
-    "عناية طبيعية",
-    "ماما",
-    "بيبي",
+    "صيدلية طبيعية",
+    "عناية ماما والبيبي",
+    "أطباء الأطفال",
+    "القابلات",
     "المغرب",
     "زيت الهندية",
     "الأرغان",
-    "الخزامى",
+    "إكليل الجبل",
+    "الكاليندولا",
     "الدفع عند الاستلام",
   ],
   authors: [{ name: "Hnina", url: "https://hnina.shop" }],
@@ -42,14 +42,15 @@ export const metadata: Metadata = {
     locale: "ar_MA",
     url: "https://hnina.shop",
     siteName: "حنينة",
-    title: "حنينة | عناية طبيعية لماما والبيبي في المغرب",
+    title: "حنينة | الصيدلية الطبيعية لماما والبيبي في المغرب",
     description:
-      "منتجات حنينة للعناية بماما والبيبي بمكونات طبيعية، الدفع عند الاستلام والتوصيل في المغرب.",
+      "حنينة — الصيدلية الطبيعية المغربية لماما والبيبي. مكونات مغربية أصيلة، موصى بها من طرف أطباء الأطفال والقابلات. الدفع عند الاستلام.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "حنينة | عناية طبيعية لماما والبيبي",
-    description: "منتجات طبيعية للعناية بماما والبيبي. الدفع عند الاستلام.",
+    title: "حنينة | الصيدلية الطبيعية لماما والبيبي",
+    description:
+      "الصيدلية الطبيعية المغربية لماما والبيبي — موصى بها من طرف أطباء الأطفال. الدفع عند الاستلام.",
   },
   robots: {
     index: true,
@@ -75,12 +76,10 @@ export default function RootLayout({
       </head>
       <body className="font-arabic">
         <PixelLoader />
-        <AnnouncementBar />
-        <Header />
-        <main id="main-content">{children}</main>
-        <Footer />
-        <FloatingWhatsApp />
-        <CartDrawer />
+        <Suspense fallback={null}>
+          <PageViewTracker />
+        </Suspense>
+        <StorefrontChrome>{children}</StorefrontChrome>
       </body>
     </html>
   );
