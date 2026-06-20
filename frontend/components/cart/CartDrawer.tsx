@@ -265,6 +265,7 @@ export function CartDrawer() {
         orderNumber: response.orderNumber,
         customerName: formData.fullName,
         phone: formData.phone,
+        city: formData.city,
         totalPrice: finalTotal,
         items: orderItems.map((i) => ({
           sku: i.sku,

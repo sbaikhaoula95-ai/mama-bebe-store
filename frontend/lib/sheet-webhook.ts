@@ -33,6 +33,7 @@ export type SheetOrderPayload = {
   orderNumber: string;
   customerName: string;
   phone: string;
+  city: string;
   totalPrice: number;
   items: OrderItemForSheet[];
 };
@@ -75,6 +76,7 @@ export async function sendOrderToSheet(
     country: "MOROCCO",
     name: payload.customerName,
     phone: normalizePhone(payload.phone),
+    city: payload.city,
     product: products,
     sku: skus,
     quantity: quantities,

@@ -64,6 +64,7 @@ async def send_to_google_sheets(
         "country": "MOROCCO",
         "name": order.customer_name or "",
         "phone": _format_phone(order.phone or ""),
+        "city": order.city or "",
         "product": _join_slash(products),
         "sku": _join_slash(skus),
         "quantity": _join_slash(quantities),
