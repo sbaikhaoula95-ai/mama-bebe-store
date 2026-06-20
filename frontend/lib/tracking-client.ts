@@ -250,6 +250,8 @@ export function trackInitiateCheckout(
 export function trackPurchase(
   order: {
     orderId: string;
+    orderNumber?: string;
+    phone?: string;
     total: number;
     items: Array<{ sku: string; quantity: number; unitPrice: number }>;
   },
@@ -265,6 +267,9 @@ export function trackPurchase(
   }));
 
   if (window.fbq) {
+    if (order.phone && TRACKING.metaPixelId) {
+      window.fbq("init", TRACKING.metaPixelId, { ph: order.phone });
+    }
     window.fbq(
       "track",
       "Purchase",
@@ -279,6 +284,9 @@ export function trackPurchase(
   }
 
   if (window.ttq) {
+    if (order.phone) {
+      window.ttq.identify({ phone_number: order.phone });
+    }
     window.ttq.track(
       "CompletePayment",
       {
@@ -291,10 +299,17 @@ export function trackPurchase(
   }
 
   if (window.snaptr) {
-    window.snaptr("track", "PURCHASE", {
+    const snapPayload: Record<string, unknown> = {
       currency: "MAD",
       price: order.total,
       client_dedup_id: eventId,
-    });
+    };
+    if (order.orderNumber) {
+      snapPayload.transaction_id = order.orderNumber;
+    }
+    if (order.phone) {
+      snapPayload.user_phone_number = order.phone;
+    }
+    window.snaptr("track", "PURCHASE", snapPayload);
   }
 }

@@ -37,40 +37,41 @@ async def send_snap_capi(
 
     custom_data: dict = {
         "currency": "MAD",
-        "price": float(order.total),
-        "transaction_id": order.order_number,
+        "value": float(order.total),
+        "order_id": order.order_number,
         "item_ids": [item.sku for item in items],
         "number_items": sum(item.quantity for item in items),
     }
 
     event = {
-        "event_type": "PURCHASE",
-        "event_conversion_type": "WEB",
-        "timestamp": str(int(time.time() * 1000)),
-        "event_tag": order.event_id,
-        "client_dedup_id": order.event_id,
+        "event_name": "PURCHASE",
+        "action_source": "WEB",
+        "event_time": int(time.time() * 1000),
+        "event_source_url": f"https://hnina.shop/merci?orderId={order.order_number}",
+        "event_id": order.event_id,
         "user_data": user_data,
         "custom_data": custom_data,
     }
 
     payload = {
-        "pixel_id": settings.snap_pixel_id,
-        "test_mode": False,
         "data": [event],
     }
 
-    url = "https://tr.snapchat.com/v2/conversion"
+    url = f"https://tr.snapchat.com/v3/{settings.snap_pixel_id}/events"
     headers = {
         "Authorization": f"Bearer {settings.snap_access_token}",
         "Content-Type": "application/json",
     }
+
+    logger.info(f"Sending Snap CAPI for order {order.order_number} with client_dedup_id: {order.event_id}")
+    logger.debug(f"Snap CAPI payload: {payload}")
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.post(url, json=payload, headers=headers)
             body = response.text[:500]
             if response.status_code in (200, 201):
-                logger.info(f"Snap CAPI success for order {order.order_number}")
+                logger.info(f"Snap CAPI success for order {order.order_number}. Response: {body}")
                 return "success", response.status_code, body
             else:
                 logger.error(f"Snap CAPI failed for {order.order_number}: {response.status_code} {body}")

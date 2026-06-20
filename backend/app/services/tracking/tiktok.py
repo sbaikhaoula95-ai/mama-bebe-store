@@ -72,12 +72,15 @@ async def send_tiktok_capi(
         "Content-Type": "application/json",
     }
 
+    logger.info(f"Sending TikTok CAPI for order {order.order_number} with event_id: {order.event_id}")
+    logger.debug(f"TikTok CAPI payload: {payload}")
+
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.post(url, json=payload, headers=headers)
             body = response.text[:500]
             if response.status_code in (200, 201):
-                logger.info(f"TikTok CAPI success for order {order.order_number}")
+                logger.info(f"TikTok CAPI success for order {order.order_number}. Response: {body}")
                 return "success", response.status_code, body
             else:
                 logger.error(f"TikTok CAPI failed for {order.order_number}: {response.status_code} {body}")

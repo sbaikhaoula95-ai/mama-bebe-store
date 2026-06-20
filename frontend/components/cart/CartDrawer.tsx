@@ -281,6 +281,8 @@ export function CartDrawer() {
       trackPurchase(
         {
           orderId: response.orderId,
+          orderNumber: response.orderNumber,
+          phone: formData.phone,
           total: finalTotal,
           items: orderItems.map((i) => ({
             sku: i.sku,

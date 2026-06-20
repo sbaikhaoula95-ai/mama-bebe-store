@@ -81,12 +81,15 @@ async def send_meta_capi(
     url = f"https://graph.facebook.com/{settings.meta_api_version}/{settings.meta_pixel_id}/events"
     params = {"access_token": settings.meta_access_token}
 
+    logger.info(f"Sending Meta CAPI for order {order.order_number} with event_id: {order.event_id}")
+    logger.debug(f"Meta CAPI payload: {payload}")
+
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.post(url, params=params, json=payload)
             body = response.text[:500]
             if response.status_code in (200, 201):
-                logger.info(f"Meta CAPI success for order {order.order_number}")
+                logger.info(f"Meta CAPI success for order {order.order_number}. Response: {body}")
                 return "success", response.status_code, body
             else:
                 logger.error(f"Meta CAPI failed for {order.order_number}: {response.status_code} {body}")
