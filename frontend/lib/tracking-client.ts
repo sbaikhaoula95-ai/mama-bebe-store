@@ -266,9 +266,21 @@ export function trackPurchase(
     item_price: i.unitPrice,
   }));
 
+  // Format phone for Advanced Matching
+  let metaSnapPhone = order.phone;
+  let tiktokPhone = order.phone;
+  
+  if (order.phone) {
+    const digits = order.phone.replace(/\D/g, "");
+    if (digits.startsWith("0") && digits.length === 10) {
+      metaSnapPhone = "212" + digits.substring(1); // 2126... (No + for Meta/Snap)
+      tiktokPhone = "+" + metaSnapPhone;           // +2126... (With + for TikTok)
+    }
+  }
+
   if (window.fbq) {
-    if (order.phone && TRACKING.metaPixelId) {
-      window.fbq("init", TRACKING.metaPixelId, { ph: order.phone });
+    if (metaSnapPhone && TRACKING.metaPixelId) {
+      window.fbq("init", TRACKING.metaPixelId, { ph: metaSnapPhone });
     }
     window.fbq(
       "track",
@@ -284,8 +296,8 @@ export function trackPurchase(
   }
 
   if (window.ttq) {
-    if (order.phone) {
-      window.ttq.identify({ phone_number: order.phone });
+    if (tiktokPhone) {
+      window.ttq.identify({ phone_number: tiktokPhone });
     }
     window.ttq.track(
       "CompletePayment",
@@ -307,8 +319,8 @@ export function trackPurchase(
     if (order.orderNumber) {
       snapPayload.transaction_id = order.orderNumber;
     }
-    if (order.phone) {
-      snapPayload.user_phone_number = order.phone;
+    if (metaSnapPhone) {
+      snapPayload.user_phone_number = metaSnapPhone;
     }
     window.snaptr("track", "PURCHASE", snapPayload);
   }
