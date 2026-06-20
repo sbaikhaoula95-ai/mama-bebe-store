@@ -115,7 +115,7 @@ export default async function ProductPage({
       </section>
 
       {/* 2. PRODUCT DESCRIPTION */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 items-stretch">
             <div className="rounded-3xl bg-gradient-to-br from-forest to-ink p-8 md:p-10 text-cream shadow-lg">
@@ -172,7 +172,7 @@ export default async function ProductPage({
       </section>
 
       {/* 2. PAIN / EMPATHY (Image Right, Text Left) */}
-      <section className="section-padding bg-blush/5 border-y border-blush/10">
+      <section className="section-padding bg-blush/5 border-y border-blush/10 content-auto">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Image - Right in RTL */}
@@ -204,7 +204,7 @@ export default async function ProductPage({
       </section>
 
       {/* 3. MECHANISM / SCIENCE (Text Right, Image Left) */}
-      <section className="section-padding bg-cream">
+      <section className="section-padding bg-cream content-auto">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Text - Right in RTL */}
@@ -254,7 +254,7 @@ export default async function ProductPage({
       </section>
 
       {/* 4. AUTHORITY & PROOF (Image Right, Text Left) */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Image - Right in RTL */}
@@ -293,7 +293,7 @@ export default async function ProductPage({
       </section>
 
       {/* 5. INGREDIENTS */}
-      <section className="section-padding bg-cream">
+      <section className="section-padding bg-cream content-auto">
         <div className="container-site">
           <SectionHeader
             eyebrow="مكوناتنا"
@@ -306,7 +306,7 @@ export default async function ProductPage({
       </section>
 
       {/* 6. HOW TO USE (Text Right, Image Left) */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Text - Right in RTL */}
@@ -342,7 +342,7 @@ export default async function ProductPage({
       </section>
 
       {/* 8. REVIEWS */}
-      <section className="section-padding bg-cream">
+      <section className="section-padding bg-cream content-auto">
         <div className="container-site">
           <SectionHeader
             eyebrow="آراء الزبونات"
@@ -379,7 +379,7 @@ export default async function ProductPage({
       </section>
 
       {/* 9. GUARANTEE (Risk Reversal) */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site max-w-4xl text-center">
           <div className="bg-gradient-to-b from-cream to-white border border-gold/20 rounded-3xl p-10 md:p-16 shadow-sm">
             <div className="w-20 h-20 bg-gold/10 text-gold rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
@@ -400,7 +400,7 @@ export default async function ProductPage({
       </section>
 
       {/* 10. REPEAT OFFER SELECTOR */}
-      <section className="section-padding bg-cream">
+      <section className="section-padding bg-cream content-auto">
         <div className="container-site max-w-lg">
           <SectionHeader
             title="اختاري العرض واشتري الآن"
@@ -415,7 +415,7 @@ export default async function ProductPage({
       <CrossSellGrid products={crossSells} />
 
       {/* 12. FAQ */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site max-w-3xl">
           <SectionHeader
             eyebrow="أسئلة شائعة"

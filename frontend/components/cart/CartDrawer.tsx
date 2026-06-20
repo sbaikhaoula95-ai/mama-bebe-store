@@ -296,6 +296,7 @@ export function CartDrawer() {
           orderId: response.orderId,
           orderNumber: response.orderNumber,
           customerName: formData.fullName,
+          phone: formData.phone,
           city: formData.city,
           items: orderItems,
           totals: payload.totals,

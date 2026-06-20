@@ -31,7 +31,7 @@ export function CrossSellGrid({
   }
 
   return (
-    <section className="section-padding bg-cream">
+    <section className="section-padding bg-cream content-auto">
       <div className="container-site">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-ink">{title}</h2>

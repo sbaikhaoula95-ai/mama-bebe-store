@@ -26,8 +26,8 @@ export function Header() {
     <header
       className={`sticky top-0 z-30 transition-all duration-300 ${
         scrolled
-          ? "bg-cream/80 backdrop-blur-xl shadow-lg shadow-ink/5 border-b border-ink/5"
-          : "bg-cream/95 backdrop-blur-md border-b border-ink/10"
+          ? "bg-cream/85 backdrop-blur-md shadow-lg shadow-ink/5 border-b border-ink/5 transform-gpu"
+          : "bg-cream/95 backdrop-blur-sm border-b border-ink/10 transform-gpu"
       }`}
     >
       <div className="container-site">

@@ -42,8 +42,8 @@ export function HomeContent() {
     <>
       {/* 1. HERO — apothecary authority + maternal warmth */}
       <section className="bg-gradient-to-b from-cream via-cream to-cream section-padding relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-pharmacy/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blush/10 rounded-full blur-[80px] translate-x-1/3 translate-y-1/3"></div>
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(31,79,58,0.05)_0%,transparent_70%)] rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(216,163,155,0.1)_0%,transparent_70%)] rounded-full translate-x-1/3 translate-y-1/3"></div>
         <div className="container-site relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col gap-6 order-2 lg:order-1 animate-fade-up">
@@ -120,11 +120,11 @@ export function HomeContent() {
       </section>
 
       {/* 2. PAIN / EMPATHY */}
-      <section className="section-padding bg-white border-y border-ink/5">
+      <section className="section-padding bg-white border-y border-ink/5 content-auto">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal direction="right" className="order-1 lg:order-1 relative">
-              <div className="absolute -inset-4 bg-blush/10 rounded-full blur-3xl -z-10"></div>
+              <div className="absolute -inset-4 bg-[radial-gradient(circle,rgba(216,163,155,0.1)_0%,transparent_70%)] rounded-full -z-10"></div>
               <PlaceholderImage
                 imageKey="home-empathy-mom"
                 alt="أمومة بكل تحدياتها وجمالها"
@@ -155,7 +155,7 @@ export function HomeContent() {
       </section>
 
       {/* 3. THREE SECTIONS — رفوف الصيدلية */}
-      <section className="section-padding bg-cream">
+      <section className="section-padding bg-cream content-auto">
         <div className="container-site">
           <ScrollReveal>
             <SectionHeader
@@ -219,7 +219,7 @@ export function HomeContent() {
       </section>
 
       {/* 4. PROTOCOLE — لي معايير حنينة */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal direction="right" className="order-2 lg:order-1 flex flex-col gap-6">
@@ -286,8 +286,8 @@ export function HomeContent() {
       </section>
 
       {/* 5. PRODUCT COLLECTION PREVIEW */}
-      <section className="section-padding bg-cream relative overflow-hidden">
-        <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-sage/5 rounded-full blur-[80px] -translate-x-1/2"></div>
+      <section className="section-padding bg-cream relative overflow-hidden content-auto">
+        <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(124,154,130,0.05)_0%,transparent_70%)] rounded-full -translate-x-1/2"></div>
         <div className="container-site relative">
           <ScrollReveal>
             <SectionHeader
@@ -308,8 +308,8 @@ export function HomeContent() {
           {/* AOV block — routine complète maman+bébé */}
           <ScrollReveal direction="scale">
             <div className="mt-16 bg-pharmacy text-cream rounded-[3rem] p-10 md:p-16 text-center relative overflow-hidden shadow-2xl">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_0%,transparent_70%)] rounded-full -translate-y-1/2 translate-x-1/2"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_0%,transparent_70%)] rounded-full translate-y-1/2 -translate-x-1/2"></div>
               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent"></div>
               <div className="relative z-10">
                 <span className="inline-block bg-gold/20 text-gold font-bold px-4 py-1.5 rounded-full mb-6 text-sm">
@@ -331,7 +331,7 @@ export function HomeContent() {
       </section>
 
       {/* 6. WHY HNINA */}
-      <section id="why-hnina" className="section-padding bg-white">
+      <section id="why-hnina" className="section-padding bg-white content-auto">
         <div className="container-site">
           <ScrollReveal>
             <SectionHeader
@@ -395,8 +395,8 @@ export function HomeContent() {
       </section>
 
       {/* 7. INGREDIENTS FROM NATURE */}
-      <section className="section-padding bg-cream relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold/5 rounded-full blur-[100px] translate-x-1/3 -translate-y-1/3"></div>
+      <section className="section-padding bg-cream relative overflow-hidden content-auto">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(199,163,91,0.05)_0%,transparent_70%)] rounded-full translate-x-1/3 -translate-y-1/3"></div>
         <div className="container-site relative">
           <ScrollReveal>
             <SectionHeader
@@ -434,7 +434,7 @@ export function HomeContent() {
       </section>
 
       {/* 8. AUTHORITY SECTION — pediatrician + midwife */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal direction="right" className="order-1 lg:order-1 relative">
@@ -485,7 +485,7 @@ export function HomeContent() {
       </section>
 
       {/* 9. REVIEWS */}
-      <section className="section-padding bg-cream border-y border-ink/5">
+      <section className="section-padding bg-cream border-y border-ink/5 content-auto">
         <div className="container-site">
           <ScrollReveal>
             <SectionHeader
@@ -551,7 +551,7 @@ export function HomeContent() {
       </section>
 
       {/* 10. GUARANTEE — ضمان حنينة */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site max-w-4xl text-center">
           <ScrollReveal direction="scale">
             <div className="bg-gradient-to-b from-cream to-white border border-pharmacy/20 rounded-[3rem] p-10 md:p-16 shadow-xl relative overflow-hidden">
@@ -586,9 +586,9 @@ export function HomeContent() {
       </section>
 
       {/* 11. HOW COD WORKS */}
-      <section className="section-padding bg-pharmacy text-cream relative overflow-hidden">
+      <section className="section-padding bg-pharmacy text-cream relative overflow-hidden content-auto">
         <div className="absolute inset-0 bg-gradient-to-br from-pharmacy via-pharmacy to-ink/50"></div>
-        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-white/[0.02] rounded-full blur-[80px]"></div>
+        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(255,255,255,0.02)_0%,transparent_70%)] rounded-full"></div>
         <div className="container-site relative">
           <ScrollReveal>
             <SectionHeader
@@ -632,7 +632,7 @@ export function HomeContent() {
       </section>
 
       {/* 12. FAQ */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white content-auto">
         <div className="container-site max-w-3xl">
           <ScrollReveal>
             <SectionHeader
@@ -648,7 +648,7 @@ export function HomeContent() {
       </section>
 
       {/* 13. FINAL CTA */}
-      <section className="section-padding bg-gradient-to-b from-cream via-blush/10 to-blush/20 relative overflow-hidden">
+      <section className="section-padding bg-gradient-to-b from-cream via-blush/10 to-blush/20 relative overflow-hidden content-auto">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(31,79,58,0.03)_0%,transparent_70%)]"></div>
         <div className="container-site text-center relative">
           <ScrollReveal direction="scale">
